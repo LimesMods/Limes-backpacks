@@ -1,0 +1,7 @@
+# White and cream sleeping-bag texture
+
+Generated with the built-in image-generation tool for the diamond backpack. The generated PNG is copied unchanged to `src/main/resources/assets/limesbackpacks/textures/item/sleeping_bag_white_cream.png`. The left column supplies white outer fabric and the right column cream lining. Existing gold and netherite textures are preserved.
+
+## Generation prompt
+
+Use case: stylized-concept. Asset type: Minecraft low-poly fabric material texture atlas, not a picture of a backpack. Create a square, fully opaque flat texture sheet split into exactly two equal vertical columns with a perfectly straight boundary at 50% width, edge to edge, no margins or grid lines. Left column: PURE WHITE cloth, mostly #FFFFFF and #F8F7F3 with a few large subtle warm-white rectangular shade patches #EEEDE7. Right column: CREAM cloth, mostly #F1E8D5 with a few large soft ivory rectangular shade patches #F7EFDF and #E7DDC8. Each column should have only 4 to 6 LARGE crisp axis-aligned rectangular patches, a very simple restrained pixel-art palette. Soft muted white/cream contrast, no pink/red, no yellow saturation, no dark gray. Uniform flat unlit material colors; absolutely no shading gradients, fabric grain, noise, weave, text, logos, outlines, borders, transparent areas, objects, straps, seams or perspective. This will be UV sampled onto an existing Minecraft sleeping-bag model; render only the two color-swatch fields filling the entire image.

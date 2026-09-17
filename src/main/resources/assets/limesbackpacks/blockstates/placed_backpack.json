@@ -1,0 +1,148 @@
+{
+  "variants": {
+    "rotation=0,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=1,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=2,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=3,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=4,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=5,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=6,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=7,tier=0": {
+      "model": "limesbackpacks:block/placed_backpack_leather"
+    },
+    "rotation=0,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=1,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=2,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=3,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=4,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=5,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=6,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=7,tier=1": {
+      "model": "limesbackpacks:block/placed_backpack_copper"
+    },
+    "rotation=0,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=1,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=2,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=3,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=4,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=5,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=6,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=7,tier=2": {
+      "model": "limesbackpacks:block/placed_backpack_iron"
+    },
+    "rotation=0,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=1,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=2,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=3,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=4,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=5,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=6,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=7,tier=3": {
+      "model": "limesbackpacks:block/placed_backpack_gold"
+    },
+    "rotation=0,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=1,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=2,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=3,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=4,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=5,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=6,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=7,tier=4": {
+      "model": "limesbackpacks:block/placed_backpack_diamond"
+    },
+    "rotation=0,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    },
+    "rotation=1,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    },
+    "rotation=2,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    },
+    "rotation=3,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    },
+    "rotation=4,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    },
+    "rotation=5,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    },
+    "rotation=6,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    },
+    "rotation=7,tier=5": {
+      "model": "limesbackpacks:block/placed_backpack_netherite"
+    }
+  }
+}

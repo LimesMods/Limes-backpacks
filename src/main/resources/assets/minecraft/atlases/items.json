@@ -1,0 +1,29 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:entity/equipment/humanoid/copper",
+      "sprite": "limesbackpacks:item/armor_metal_copper"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:entity/equipment/humanoid/iron",
+      "sprite": "limesbackpacks:item/armor_metal_iron"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:entity/equipment/humanoid/gold",
+      "sprite": "limesbackpacks:item/armor_metal_gold"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:entity/equipment/humanoid/diamond",
+      "sprite": "limesbackpacks:item/armor_metal_diamond"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:entity/equipment/humanoid/netherite",
+      "sprite": "limesbackpacks:item/armor_metal_netherite"
+    }
+  ]
+}

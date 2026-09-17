@@ -1,0 +1,95 @@
+plugins {
+	id 'fabric-loom' version '1.14.5'
+	id 'maven-publish'
+}
+
+group = 'com.lime'
+version = '1.0.0'
+
+repositories {
+	maven { url 'https://maven.gegy.dev' }
+	maven { url 'https://maven.fabricmc.net/' }
+	maven { url 'https://maven.terraformersmc.com/' }
+	maven { url 'https://maven.ladysnake.org/releases' }
+	maven { url 'https://api.modrinth.com/maven' }
+	maven {
+		url 'https://maven.emi.dev/'
+		allowInsecureProtocol = false
+	}
+	mavenCentral()
+}
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"limesbackpacks" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+
+	mappings "net.fabricmc:yarn:${minecraft_version}+build.5:v2"
+
+	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+
+	modCompileOnly "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}"
+	modCompileOnly "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cca_version}"
+	modCompileOnly "maven.modrinth:trinkets-updated:${trinkets_version}"
+	modCompileOnly "dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:4.9.1+1.21.11"
+	if (providers.gradleProperty('withDynamicLights').isPresent()) {
+		modLocalRuntime "dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:4.9.1+1.21.11"
+	}
+}
+
+java {
+	toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+tasks.register('verifyBackpackGui', JavaExec) {
+	dependsOn testClasses
+	classpath = sourceSets.test.runtimeClasspath
+	mainClass = 'com.lime.backpacks.BackpackGuiChecks'
+}
+// These world-free verification programs use JavaExec/Fabric Knot, not JUnit discovery.
+tasks.named('test') { failOnNoDiscoveredTests = false }
+tasks.named('check') { dependsOn 'verifyBackpackGui', 'verifyLantern' }
+
+tasks.register('verifyLantern', JavaExec) {
+	dependsOn testClasses, clientClasses
+	classpath = sourceSets.test.runtimeClasspath + sourceSets.client.runtimeClasspath
+	if (providers.gradleProperty('lanternWithApi').isPresent()) {
+		// Loom 1.14's compile-only Minecraft stubs cannot be used by Knot at runtime.
+		classpath += configurations.compileClasspath.filter { !it.name.startsWith('minecraft-') }
+	} else if (providers.gradleProperty('lanternWithTrinkets').isPresent()) {
+		classpath += configurations.compileClasspath.filter {
+			!it.name.startsWith('minecraft-') && !it.name.startsWith('lambdynamiclights-')
+		}
+	}
+	mainClass = 'com.lime.backpacks.QuiverTestLauncher'
+	systemProperty 'verificationClass', 'com.lime.backpacks.LanternChecks'
+	systemProperty 'fabric.development', 'true'
+	systemProperty 'fabric.side', 'client'
+	workingDir layout.buildDirectory.dir('lantern-verification').get().asFile
+	doFirst { workingDir.mkdirs() }
+}
+
+// Exercise the quiver against Minecraft classes with real Fabric mixin loading,
+// without opening a game window or creating a world.
+tasks.register('verifyQuiver', JavaExec) {
+	dependsOn testClasses, clientClasses
+	classpath = sourceSets.test.runtimeClasspath + sourceSets.client.runtimeClasspath
+	if (providers.gradleProperty('quiverWithTrinkets').isPresent()) {
+		classpath += configurations.compileClasspath.filter { !it.name.startsWith('minecraft-') }
+	}
+	mainClass = 'com.lime.backpacks.QuiverTestLauncher'
+	systemProperty 'fabric.development', 'true'
+	systemProperty 'fabric.side', 'client'
+	workingDir layout.buildDirectory.dir('quiver-verification').get().asFile
+	doFirst { workingDir.mkdirs() }
+}

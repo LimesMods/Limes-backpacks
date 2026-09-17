@@ -1,0 +1,18 @@
+{
+  "type": "limesbackpacks:backpack_upgrade",
+  "category": "misc",
+  "pattern": [
+    "WWW",
+    "GXG",
+    "GGG"
+  ],
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "W": "minecraft:green_wool",
+    "X": "limesbackpacks:iron_backpack"
+  },
+  "result": {
+    "id": "limesbackpacks:gold_backpack",
+    "count": 1
+  }
+}

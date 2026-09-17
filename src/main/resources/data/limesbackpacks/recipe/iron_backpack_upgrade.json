@@ -1,0 +1,19 @@
+{
+  "type": "limesbackpacks:backpack_upgrade",
+  "category": "misc",
+  "pattern": [
+    "#C#",
+    "IXI",
+    "#C#"
+  ],
+  "key": {
+    "#": "minecraft:iron_ingot",
+    "C": "minecraft:iron_chain",
+    "I": "minecraft:iron_ingot",
+    "X": "limesbackpacks:copper_backpack"
+  },
+  "result": {
+    "id": "limesbackpacks:iron_backpack",
+    "count": 1
+  }
+}

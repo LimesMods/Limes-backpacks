@@ -1,0 +1,9 @@
+{
+	"required": true,
+	"package": "com.lime.backpacks.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": ["QuiverItemModelMixin", "LanternItemLightMixin"],
+	"injectors": {
+		"defaultRequire": 0
+	}
+}

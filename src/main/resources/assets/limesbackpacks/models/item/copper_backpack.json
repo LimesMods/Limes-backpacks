@@ -1,0 +1,1570 @@
+{
+  "parent": "limesbackpacks:item/backpack_hiking",
+  "textures": {
+    "0": "limesbackpacks:item/hiking_backpack",
+    "cloth": "limesbackpacks:item/expedition_soft",
+    "legacy": "limesbackpacks:item/copper_backpack",
+    "equipment": "limesbackpacks:item/netherite_backpack",
+    "iron": "limesbackpacks:item/iron_backpack",
+    "leather": "limesbackpacks:item/leather_backpack",
+    "particle": "limesbackpacks:item/expedition_soft",
+    "armor": "limesbackpacks:item/armor_metal_copper"
+  },
+  "display": {
+    "gui": {
+      "rotation": [
+        25,
+        215,
+        0
+      ],
+      "translation": [
+        0.722,
+        -3.999,
+        0
+      ],
+      "scale": [
+        1.117,
+        1.117,
+        1.117
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0.95,
+        -3.196,
+        0
+      ],
+      "scale": [
+        1.2375,
+        1.2375,
+        1.2375
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    }
+  },
+  "elements": [
+    {
+      "name": "main_body",
+      "from": [
+        4.18,
+        6.392,
+        8.19
+      ],
+      "to": [
+        11.82,
+        16,
+        12.057
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "south": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "east": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "west": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "up": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "down": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        }
+      }
+    },
+    {
+      "name": "left_outer_strap",
+      "from": [
+        5.135,
+        6.163,
+        7.997
+      ],
+      "to": [
+        6.09,
+        16.229,
+        12.25
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.25,
+            5.25,
+            8.5,
+            8
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            0,
+            4.75,
+            0.25,
+            7.5
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            0,
+            10.5,
+            1.5,
+            13.25
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            1.75,
+            10.5,
+            3.25,
+            13.25
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            7,
+            5.25,
+            7.25,
+            6.75
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            7.5,
+            5.25,
+            7.75,
+            6.75
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "right_outer_strap",
+      "from": [
+        9.91,
+        6.163,
+        7.997
+      ],
+      "to": [
+        10.865,
+        16.229,
+        12.25
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            4.75,
+            0.75,
+            7.5
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            1,
+            4.75,
+            1.25,
+            7.5
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            3.5,
+            10.5,
+            5,
+            13.25
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            5.25,
+            13.25,
+            6.75,
+            16
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            3.25,
+            5,
+            3.5,
+            6.5
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            3.75,
+            5,
+            4,
+            6.5
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "upper_front_panel",
+      "from": [
+        4.419,
+        10.979,
+        5.844
+      ],
+      "to": [
+        11.581,
+        13.713,
+        6.817
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "south": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "east": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "west": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "up": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "down": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        }
+      }
+    },
+    {
+      "name": "upper_front_trim",
+      "from": [
+        5.135,
+        10.067,
+        5.777
+      ],
+      "to": [
+        10.865,
+        11.059,
+        6.614
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ],
+          "texture": "#armor"
+        },
+        "south": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "east": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "west": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "up": {
+          "uv": [
+            5.5,
+            12,
+            5.75,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "down": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        }
+      }
+    },
+    {
+      "name": "upper_front_buckle",
+      "from": [
+        7.045,
+        9.859,
+        5.567
+      ],
+      "to": [
+        8.955,
+        11.079,
+        6.422
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ],
+          "texture": "#armor",
+          "rotation": 90
+        },
+        "south": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "east": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "west": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "up": {
+          "uv": [
+            5.5,
+            12,
+            5.75,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "down": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        }
+      }
+    },
+    {
+      "name": "lower_front_panel",
+      "from": [
+        4.419,
+        8.085,
+        6.412
+      ],
+      "to": [
+        11.581,
+        10.979,
+        8.357
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.32,
+            2.603,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "south": {
+          "uv": [
+            4.32,
+            2.603,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "east": {
+          "uv": [
+            4.32,
+            2.603,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "west": {
+          "uv": [
+            4.32,
+            2.603,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "up": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        },
+        "down": {
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ],
+          "texture": "#cloth"
+        }
+      }
+    },
+    {
+      "name": "front_pocket_seam",
+      "from": [
+        4.88,
+        8.192,
+        6.312
+      ],
+      "to": [
+        11.12,
+        8.412,
+        6.462
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            4.64,
+            4.16,
+            4.76,
+            4.28
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            4.64,
+            4.16,
+            4.76,
+            4.28
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            4.64,
+            4.16,
+            4.76,
+            4.28
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            4.64,
+            4.16,
+            4.76,
+            4.28
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            4.64,
+            4.16,
+            4.76,
+            4.28
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            4.64,
+            4.16,
+            4.76,
+            4.28
+          ]
+        }
+      }
+    },
+    {
+      "name": "side_pocket_left",
+      "from": [
+        2.58,
+        6.892,
+        8.39
+      ],
+      "to": [
+        4.28,
+        10.192,
+        11.8
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        }
+      }
+    },
+    {
+      "name": "side_pocket_left_flap",
+      "from": [
+        2.58,
+        10.192,
+        8.39
+      ],
+      "to": [
+        4.28,
+        10.992,
+        11.8
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            4.907
+          ]
+        }
+      }
+    },
+    {
+      "name": "side_pocket_left_leather_band",
+      "from": [
+        2.4,
+        9.642,
+        8.64
+      ],
+      "to": [
+        2.61,
+        10.242,
+        11.55
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ],
+          "texture": "#armor"
+        },
+        "east": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "north": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "south": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "up": {
+          "uv": [
+            5.5,
+            12,
+            5.75,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "down": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        }
+      }
+    },
+    {
+      "name": "side_pocket_left_leather_tab",
+      "from": [
+        2.28,
+        9.442,
+        9.695
+      ],
+      "to": [
+        2.44,
+        10.342,
+        10.495
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ],
+          "texture": "#armor",
+          "rotation": 90
+        },
+        "east": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "north": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "south": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "up": {
+          "uv": [
+            5.5,
+            12,
+            5.75,
+            12.5
+          ],
+          "texture": "#armor"
+        },
+        "down": {
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ],
+          "texture": "#armor"
+        }
+      }
+    },
+    {
+      "name": "reinforced_foot_4.279999999999999",
+      "from": [
+        4.28,
+        6.242,
+        8.09
+      ],
+      "to": [
+        4.78,
+        6.842,
+        12.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "south": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "east": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "west": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "up": {
+          "texture": "#armor",
+          "uv": [
+            5.5,
+            12,
+            5.75,
+            12.5
+          ]
+        },
+        "down": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ]
+        }
+      }
+    },
+    {
+      "name": "reinforced_foot_11.22",
+      "from": [
+        11.22,
+        6.242,
+        8.09
+      ],
+      "to": [
+        11.72,
+        6.842,
+        12.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "south": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "east": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "west": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            6,
+            13
+          ]
+        },
+        "up": {
+          "texture": "#armor",
+          "uv": [
+            5.5,
+            12,
+            5.75,
+            12.5
+          ]
+        },
+        "down": {
+          "texture": "#armor",
+          "uv": [
+            5,
+            12,
+            5.25,
+            12.5
+          ]
+        }
+      }
+    },
+    {
+      "name": "front_pocket_back",
+      "from": [
+        4.419,
+        10.979,
+        6.817
+      ],
+      "to": [
+        11.581,
+        13.713,
+        8.357
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            2.603
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            2.603
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            5.02,
+            0.427,
+            7.68,
+            2.603
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            6.98,
+            2.603
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            0.427,
+            7.68,
+            3.974
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            4.32,
+            1.36,
+            7.68,
+            4.907
+          ]
+        }
+      }
+    },
+    {
+      "name": "flap_sewn_edge",
+      "from": [
+        4.639,
+        13.263,
+        5.809
+      ],
+      "to": [
+        11.361,
+        13.353,
+        5.856
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        }
+      }
+    },
+    {
+      "name": "pocket_side_seam_4.539",
+      "from": [
+        4.539,
+        8.265,
+        6.38
+      ],
+      "to": [
+        4.619,
+        10.799,
+        6.424
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        }
+      }
+    },
+    {
+      "name": "pocket_side_seam_11.381",
+      "from": [
+        11.381,
+        8.265,
+        6.38
+      ],
+      "to": [
+        11.461,
+        10.799,
+        6.424
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        }
+      }
+    },
+    {
+      "name": "side_pocket_seam_8.55",
+      "from": [
+        2.555,
+        7.092,
+        8.55
+      ],
+      "to": [
+        2.592,
+        10.062,
+        8.63
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        }
+      }
+    },
+    {
+      "name": "side_pocket_seam_11.56",
+      "from": [
+        2.555,
+        7.092,
+        11.56
+      ],
+      "to": [
+        2.592,
+        10.062,
+        11.64
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        }
+      }
+    },
+    {
+      "name": "side_flap_edge",
+      "from": [
+        2.552,
+        10.762,
+        8.57
+      ],
+      "to": [
+        2.59,
+        10.852,
+        11.62
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            7.04,
+            0.96,
+            7.16,
+            1.08
+          ]
+        }
+      }
+    }
+  ]
+}

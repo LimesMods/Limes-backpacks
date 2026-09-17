@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><title>Backpack expedition tiers</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#15191e;color:#e8e6df;font:15px system-ui}header{padding:25px 36px 10px}h1{font-size:27px;margin:0 0 8px}p{color:#a8b0b8;margin:4px 0 16px}.controls{display:flex;gap:22px;align-items:center}main{padding:18px 26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}article{background:#20262c;border:1px solid #343d46;border-radius:12px;overflow:hidden}canvas{width:100%;height:300px;display:block}h2{font-size:18px;margin:8px 20px}article p{margin:6px 20px 18px;font-size:13px}button{background:#394651;color:white;border:0;padding:8px 15px;border-radius:6px;cursor:pointer}footer{padding:0 36px 25px;color:#9aa6af}input{vertical-align:middle}</style>
+<style>canvas{height:auto;aspect-ratio:640/460}main{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}.controls{flex-wrap:wrap}</style>
+<header><h1>Built for the next journey.</h1><p>Six expedition tiers · actual model geometry and textures · decorative equipment</p><div class="controls"><label>Rotate <input id="yaw" type="range" min="-180" max="180" value="-28"></label><label>Tilt <input id="pitch" type="range" min="-60" max="60" value="18"></label><button id="front">Front</button><button id="side">Side</button></div></header><main></main><footer>Asset preview. In-game lighting and animation may differ.</footer>
+<script>
+const tiers=['leather','copper','iron','gold','diamond','netherite'];
+const captions=['Compact leather · one front pocket','Copper fittings · side pouch · reinforced feet','Iron fittings · side pouch · body-mounted canteen','Muted gold · forest-green top bedroll','Soft teal · rose-gold top bedroll · vanilla lantern','Charcoal · red top bedroll · large leather quiver'];
+const root='../src/main/resources/assets/limesbackpacks/';
+const imgs={},models=[];
+const img=async key=>{if(imgs[key])return imgs[key];const v=new Image();v.src=key==='minecraft:block/lantern'?'reference/lantern.png':root+'textures/'+key.split(':')[1]+'.png';await v.decode();return imgs[key]=v;};
+const rad=v=>v*Math.PI/180;
+function draw(canvas,model){
+const ctx=canvas.getContext('2d'),W=canvas.width=640,H=canvas.height=460;ctx.clearRect(0,0,W,H);ctx.imageSmoothingEnabled=false;
+const yaw=rad(+document.querySelector('#yaw').value),pitch=rad(+document.querySelector('#pitch').value);
+const rot=p=>{const x=p[0]-8,y=p[1]-11,z=p[2]-8;const a=x*Math.cos(yaw)+z*Math.sin(yaw),b=-x*Math.sin(yaw)+z*Math.cos(yaw);return[a,y*Math.cos(pitch)+b*Math.sin(pitch),-y*Math.sin(pitch)+b*Math.cos(pitch)];};
+const screen=p=>[W/2+p[0]*16,H/2-p[1]*16];const quads=[];
+for(const e of model.elements){const [a,b,c]=e.from,[d,f,g]=e.to;
+const sides={north:[[a,f,c],[d,f,c],[d,b,c],[a,b,c]],south:[[d,f,g],[a,f,g],[a,b,g],[d,b,g]],east:[[d,f,c],[d,f,g],[d,b,g],[d,b,c]],west:[[a,f,g],[a,f,c],[a,b,c],[a,b,g]],up:[[a,f,g],[d,f,g],[d,f,c],[a,f,c]],down:[[a,b,c],[d,b,c],[d,b,g],[a,b,g]]};
+for(const [side,face]of Object.entries(e.faces)){const local=p=>{if(!e.rotation)return p;const o=e.rotation.origin,t=rad(e.rotation.angle),x=p[0]-o[0],z=p[2]-o[2];return [o[0]+x*Math.cos(t)+z*Math.sin(t),p[1],o[2]-x*Math.sin(t)+z*Math.cos(t)];};const p=sides[side].map(local).map(rot),s=p.map(screen);const cross=(s[1][0]-s[0][0])*(s[2][1]-s[0][1])-(s[1][1]-s[0][1])*(s[2][0]-s[0][0]);if(cross<=0)continue;quads.push({p:s,depth:p.reduce((n,q)=>n+q[2],0)/4,face,shade:({up:0,north:.08,east:.22,west:.15,south:.18,down:.35})[side]});}}
+quads.sort((a,b)=>b.depth-a.depth);
+for(const q of quads){const [p0,p1,,p3]=q.p,t=imgs[model.textures[q.face.texture.slice(1)]],uv=q.face.uv;
+ctx.save();ctx.beginPath();q.p.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.clip();ctx.transform(p1[0]-p0[0],p1[1]-p0[1],p3[0]-p0[0],p3[1]-p0[1],...p0);ctx.drawImage(t,uv[0]*t.width/16,uv[1]*(q.face.texture==='#lantern'?t.width:t.height)/16,(uv[2]-uv[0])*t.width/16,(uv[3]-uv[1])*(q.face.texture==='#lantern'?t.width:t.height)/16,0,0,1,1);ctx.fillStyle=`rgba(0,0,0,${q.shade})`;ctx.fillRect(0,0,1,1);ctx.restore();}}
+function redraw(){document.querySelectorAll('canvas').forEach((c,i)=>draw(c,models[i]));}
+(async()=>{for(const [i,t]of tiers.entries()){const m=await(await fetch(root+'models/item/'+t+'_backpack.json')).json();models.push(m);await Promise.all(Object.values(m.textures).map(img));document.querySelector('main').insertAdjacentHTML('beforeend',`<article><canvas></canvas><h2>${String(i+1).padStart(2,'0')} / ${t[0].toUpperCase()+t.slice(1)}</h2><p>${captions[i]}</p></article>`);}redraw();document.body.dataset.ready='true';})();
+document.querySelectorAll('input').forEach(x=>x.oninput=redraw);document.querySelector('#front').onclick=()=>{document.querySelector('#yaw').value=0;redraw();};document.querySelector('#side').onclick=()=>{document.querySelector('#yaw').value=-80;redraw();};
+</script>

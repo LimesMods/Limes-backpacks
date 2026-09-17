@@ -1,0 +1,7 @@
+{
+  "elements": [],
+  "textures": {
+    "particle": "limesbackpacks:block/gold_fabric"
+  },
+  "parent": "minecraft:block/block"
+}

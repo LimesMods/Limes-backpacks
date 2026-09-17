@@ -1,0 +1,29 @@
+{
+  "parent": "limesbackpacks:backpacks/leather",
+  "display": {
+    "icon": {
+      "id": "limesbackpacks:copper_backpack"
+    },
+    "title": {
+      "translate": "advancements.limesbackpacks.copper.title"
+    },
+    "description": {
+      "translate": "advancements.limesbackpacks.copper.description"
+    },
+    "frame": "task",
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "crafted_copper_backpack": {
+      "conditions": {
+        "recipe_id": "limesbackpacks:copper_backpack_upgrade"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "requirements": [
+    [
+      "crafted_copper_backpack"
+    ]
+  ]
+}

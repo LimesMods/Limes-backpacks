@@ -1,0 +1,29 @@
+{
+  "parent": "limesbackpacks:backpacks/copper",
+  "display": {
+    "icon": {
+      "id": "limesbackpacks:iron_backpack"
+    },
+    "title": {
+      "translate": "advancements.limesbackpacks.iron.title"
+    },
+    "description": {
+      "translate": "advancements.limesbackpacks.iron.description"
+    },
+    "frame": "task",
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "crafted_iron_backpack": {
+      "conditions": {
+        "recipe_id": "limesbackpacks:iron_backpack_upgrade"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "requirements": [
+    [
+      "crafted_iron_backpack"
+    ]
+  ]
+}

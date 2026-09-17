@@ -1,0 +1,9 @@
+{
+	"required": true,
+	"package": "com.lime.backpacks.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": ["PlayerQuiverMixin", "RangedWeaponQuiverMixin"],
+	"injectors": {
+		"defaultRequire": 0
+	}
+}

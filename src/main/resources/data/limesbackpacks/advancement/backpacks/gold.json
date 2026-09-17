@@ -1,0 +1,29 @@
+{
+  "parent": "limesbackpacks:backpacks/iron",
+  "display": {
+    "icon": {
+      "id": "limesbackpacks:gold_backpack"
+    },
+    "title": {
+      "translate": "advancements.limesbackpacks.gold.title"
+    },
+    "description": {
+      "translate": "advancements.limesbackpacks.gold.description"
+    },
+    "frame": "task",
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "crafted_gold_backpack": {
+      "conditions": {
+        "recipe_id": "limesbackpacks:gold_backpack_upgrade"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "requirements": [
+    [
+      "crafted_gold_backpack"
+    ]
+  ]
+}

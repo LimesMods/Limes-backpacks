@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "id": "limesbackpacks:leather_backpack"
+    },
+    "title": {
+      "translate": "advancements.limesbackpacks.backpacks.title"
+    },
+    "description": {
+      "translate": "advancements.limesbackpacks.backpacks.description"
+    },
+    "background": "minecraft:block/light_gray_wool",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "show_tab": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "show_tab"
+    ]
+  ]
+}
