@@ -51,7 +51,7 @@ gradlew.bat verifyQuiver -PquiverWithTrinkets
 node scripts/check-attachment-joins.cjs
 ```
 
-The checked-in JSON model files are the runtime source of truth. `scripts/expedition-models.cjs` documents and generates the expedition model geometry; the preview server can inspect the models without launching Minecraft.
+The checked-in JSON model files are the runtime source of truth. `scripts/expedition-models.cjs` documents and generates the expedition model geometry.
 
 ## Credits and licensing
 
