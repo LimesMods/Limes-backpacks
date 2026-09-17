@@ -11,3 +11,5 @@ The asset was heavily modified for Lime's Backpacks. Changes include redesigned 
 This third-party material remains available under CC BY 4.0 and is not covered
 by the LIMESMODS LICENSE. The required attribution above
 must be preserved when that material is used or shared.
+
+No endorsement by Flok is implied.
