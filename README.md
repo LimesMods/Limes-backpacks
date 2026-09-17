@@ -21,7 +21,14 @@ Lime's Backpacks adds six wearable expedition backpacks to Fabric 1.21.11. Each 
 - Fabric API
 - Java 21
 
-Trinkets and LambDynamicLights are optional integrations. They are suggested by the mod and are not bundled.
+Trinkets Updated and LambDynamicLights are optional integrations. They are suggested by the mod and are not bundled, so the backpack storage and ordinary lantern features work without either one.
+
+### Optional integrations and third-party licenses
+
+- [Trinkets Updated](https://modrinth.com/mod/trinkets-updated) is used for the wearable chest/back slot integration. It is licensed under the [MIT License](https://www.curseforge.com/minecraft/mc-mods/trinkets-updated/license).
+- [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) is used for dynamic lantern lighting on the Diamond and Netherite backpacks. It is licensed under the [Lambda License](https://github.com/LambdAurora/LambDynamicLights/blob/1.21.5/LICENSE).
+
+Lime's Backpacks links to these public APIs but does not include either mod's jar, code, or assets. Install them separately when you want the corresponding integrations.
 
 ## Controls
 
