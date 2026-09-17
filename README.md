@@ -53,10 +53,14 @@ node scripts/check-attachment-joins.cjs
 
 The checked-in JSON model files are the runtime source of truth. `scripts/expedition-models.cjs` documents and generates the expedition model geometry; the preview server can inspect the models without launching Minecraft.
 
-## Credits and license
+## Credits and licensing
 
-The project code is released under the included [CC0 1.0 license](LICENSE).
+Original Lime's Backpacks code and original project material are covered by the included [Lime's Backpacks Private Use License](LICENSE). You may use and privately modify that material for personal, non-commercial use, but public redistribution, public modifications, copying into other projects, and commercial use require written permission from Lime.
 
-Backpack geometry and texture details are adapted from [Hiking Backpack by Flok](https://sketchfab.com/3d-models/hiking-backpack-a49cffb713294180ae9005309922e969), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The asset was heavily modified for Lime's Backpacks, including redesigned tier geometry, materials, equipment, textures and Minecraft integration. See [HIKING_BACKPACK_CREDITS.md](HIKING_BACKPACK_CREDITS.md) for the complete attribution.
+The repository is public for source visibility and development. Public visibility does not grant permission to redistribute the mod or reuse its original code and assets.
+
+Backpack geometry and texture details are adapted from [Hiking Backpack by Flok](https://sketchfab.com/3d-models/hiking-backpack-a49cffb713294180ae9005309922e969), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). That third-party material remains under its original license and is not relicensed by the Lime's Backpacks license. The asset was heavily modified for Lime's Backpacks, including redesigned tier geometry, materials, equipment, textures and Minecraft integration. See [HIKING_BACKPACK_CREDITS.md](HIKING_BACKPACK_CREDITS.md) for the complete attribution.
+
+Optional integrations are separate projects with their own licenses: [Trinkets Updated](https://modrinth.com/mod/trinkets-updated) uses the [MIT License](https://www.curseforge.com/minecraft/mc-mods/trinkets-updated/license), and [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) uses the [Lambda License](https://github.com/LambdAurora/LambDynamicLights/blob/1.21.5/LICENSE). Neither is bundled with Lime's Backpacks.
 
 Final model renders are available in [`docs/showcase-final-details`](docs/showcase-final-details/).
