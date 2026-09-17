@@ -1,6 +1,6 @@
 # Lime's Backpacks
 
-Lime's Backpacks adds six wearable expedition backpacks to Fabric 1.21.11. Each tier has its own capacity, materials, model details and equipment loadout.
+Lime's Backpacks adds six wearable backpacks to Fabric 1.21.11. Each tier has its own capacity, materials, model details and equipment loadout.
 
 ## Features
 
@@ -9,7 +9,7 @@ Lime's Backpacks adds six wearable expedition backpacks to Fabric 1.21.11. Each 
 - Capacities of 9, 18, 27, 36, 54 and 81 slots.
 - Optional Trinkets support for the chest/back slot. The mod also works without Trinkets.
 - Optional LambDynamicLights support for the Diamond and Netherite lanterns.
-- A Netherite quiver that supplies arrows to bows and crossbows.
+- A quiver on the Netherite backpack that supplies arrows to bows and crossbows.
 - Toggleable lanterns with a rebindable **Toggle Backpack Lantern** key.
 - Crouch right-click placement with hopper interaction, item preservation and tier-specific sounds.
 - A dedicated advancement tab with one milestone for each crafted tier.
