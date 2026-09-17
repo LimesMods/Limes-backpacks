@@ -14,9 +14,10 @@ You may download, install, run, and privately modify the Lime's Backpacks Work
 for your own personal, non-commercial use. You may keep private backups and
 private modified copies for that purpose.
 
-"Private use" means personal use that is not publicly distributed, publicly
-hosted, shared with the general public, or used to provide a service to the
-public.
+"Private use" means personal use that is not otherwise publicly distributed,
+publicly hosted, shared with the general public, or used to provide a service
+to the public. Section 2 contains a limited exception allowing inclusion of
+the unmodified mod in modpacks.
 
 2. Restrictions
 
@@ -24,16 +25,21 @@ Without prior written permission from Lime, you may not:
 
 - copy or incorporate the Lime's Backpacks Work into another project;
 - publish, redistribute, mirror, upload, or share the source code or any
-  compiled version of the mod;
+  compiled version of the mod, except as expressly permitted below;
 - publish, redistribute, or share an unmodified or modified fork;
-- distribute the mod through a modpack, launcher, server, website, repository,
-  or other public service;
+- distribute the mod as a standalone download through a launcher, website,
+  repository, or other public service;
 - modify the mod for public use or publish modifications to it; or
 - use the Lime's Backpacks Work for commercial purposes, including sale,
   paid access, monetized services, or commercial products.
 
 Private modifications must remain private. Giving someone access to a private
 copy for personal testing does not grant permission to redistribute it.
+
+You may include an unmodified copy of the Lime's Backpacks Work in a private or
+public, non-commercial modpack, provided that the mod is not presented as your
+own work, its license and attribution notices remain available, and the mod is
+not separately repackaged or modified for public distribution.
 
 3. Permission requests
 
