@@ -55,7 +55,7 @@ The checked-in JSON model files are the runtime source of truth. `scripts/expedi
 
 ## Credits and licensing
 
-Original Lime's Backpacks code and original project material are covered by the included [Lime's Backpacks Private Use License](LICENSE). You may use and privately modify that material for personal, non-commercial use. Unmodified copies may also be included in private or public, non-commercial modpacks. Standalone redistribution, public modifications, copying into other projects, and commercial use require written permission from LimesMods.
+Original Lime's Backpacks code and original project material are covered by the included [LIMESMODS LICENSE](LICENSE). You may use and privately modify that material for personal, non-commercial use. Unmodified copies may also be included in private or public, non-commercial modpacks. Standalone redistribution, public modifications, copying into other projects, and commercial use require written permission from LimesMods.
 
 The repository is public for source visibility and development. Public visibility does not grant permission to redistribute the mod or reuse its original code and assets.
 
