@@ -55,9 +55,7 @@ The checked-in JSON model files are the runtime source of truth. `scripts/expedi
 
 ## Credits and licensing
 
-Original Lime's Backpacks code and original project material are covered by the included [LIMESMODS LICENSE](LICENSE). You may use and privately modify that material for personal, non-commercial use. Unmodified copies may also be included in private or public, non-commercial modpacks and run on public, non-commercial servers through normal modpack platforms and launchers. You may record, stream, review, showcase, and publish videos featuring Lime's Backpacks, including monetized videos, provided that proper credit and a link to the official Modrinth or GitHub page are included. Standalone redistribution, public modifications, copying into other projects, and commercial use of the mod itself require written permission from LimesMods.
-
-The repository is public for source visibility and development. Public visibility does not grant permission to redistribute the mod or reuse its original code and assets.
+Original Lime's Backpacks code and project material are [All Rights Reserved](LICENSE). The repository's visibility does not grant permission to reuse or redistribute that original material.
 
 Backpack geometry and texture details are adapted from [Hiking Backpack by Flok](https://sketchfab.com/3d-models/hiking-backpack-a49cffb713294180ae9005309922e969), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). That third-party material remains under its original license and is not relicensed by the Lime's Backpacks license. The asset was heavily modified for Lime's Backpacks, including redesigned tier geometry, materials, equipment, textures and Minecraft integration. See [HIKING_BACKPACK_CREDITS.md](HIKING_BACKPACK_CREDITS.md) for the complete attribution.
 

@@ -1,80 +1,11 @@
-LIMESMODS LICENSE
-Version 1.0 — 17 September 2026
+All Rights Reserved
 
-Copyright (c) 2026 LimesMods
+Copyright (c) 2026 LimesMods. All rights reserved.
 
-This license applies only to the original material created for Lime's Backpacks
-by LimesMods, including original source code, original textures, original models,
-original sounds, documentation, configuration, and other original project
-material (the "Lime's Backpacks Work").
+This notice applies to the original code, models, textures, sounds,
+documentation, and other original material in Lime's Backpacks.
 
-1. Permission for private use
-
-You may download, install, run, and privately modify the Lime's Backpacks Work
-for your own personal, non-commercial use. You may keep private backups and
-private modified copies for that purpose.
-
-"Private use" means personal use that is not otherwise publicly distributed,
-publicly hosted, shared with the general public, or used to provide a service
-to the public. Section 2 contains a limited exception allowing inclusion of
-the unmodified mod in modpacks.
-
-2. Restrictions
-
-Without prior written permission from LimesMods, you may not:
-
-- copy or incorporate the Lime's Backpacks Work into another project;
-- publish, redistribute, mirror, upload, or share the source code or any
-  compiled version of the mod, except as expressly permitted below;
-- publish, redistribute, or share an unmodified or modified fork;
-- distribute the mod as a standalone download through a launcher, website,
-  repository, or other public service;
-- modify the mod for public use or publish modifications to it; or
-- use the Lime's Backpacks Work for commercial purposes, including sale,
-  paid access, monetized services, or commercial products.
-
-Private modifications must remain private. Giving someone access to a private
-copy for personal testing does not grant permission to redistribute it.
-
-You may include an unmodified copy of the Lime's Backpacks Work in a private or
-public, non-commercial modpack, run the unmodified mod on public,
-non-commercial servers, and distribute it through normal modpack platforms and
-launchers as part of that modpack. The mod must not be presented as your own
-work, and its license and attribution notices must remain available. This
-permission does not allow standalone rehosting, repackaging, or modification
-for public distribution.
-
-You may record, stream, review, showcase, and publish videos featuring Lime's
-Backpacks, including monetized videos, provided that proper credit is given and
-the video description includes a link to the official Modrinth or GitHub page.
-This permission does not allow redistribution, modification, or commercial use
-of the Lime's Backpacks Work itself.
-
-3. Permission requests
-
-Requests for public distribution, public modifications, commercial use, or
-other permissions outside this license must be obtained in writing from LimesMods.
-Any permission granted applies only to the specific use described in that
-written permission.
-
-4. Third-party material
-
-This license does not relicense, restrict, or replace the licenses of
-third-party material included in or used by the project. Those materials remain
-under their own licenses and may have separate redistribution requirements.
-See HIKING_BACKPACK_CREDITS.md and the project documentation for attribution
-and license information.
-
-In particular, the adapted Hiking Backpack material remains subject to the
-Creative Commons Attribution 4.0 International license. Optional integrations
-such as Trinkets Updated and LambDynamicLights are separate projects and are
-not included in the Lime's Backpacks jar.
-
-5. No warranty
-
-The Lime's Backpacks Work is provided "as is", without warranty of any kind,
-express or implied. Lime is not liable for any claim, damages, or other
-liability arising from the use of the Work.
-
-If any part of this license is held unenforceable, the remaining terms remain
-in effect to the fullest extent permitted by law.
+Third-party material is excluded from this notice and remains available under
+its own licence. In particular, adapted Hiking Backpack material by Flok is
+licensed under Creative Commons Attribution 4.0 International. See
+HIKING_BACKPACK_CREDITS.md for the required attribution and licence link.
