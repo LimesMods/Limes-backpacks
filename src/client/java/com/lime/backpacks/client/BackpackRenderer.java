@@ -5,6 +5,7 @@ import com.lime.backpacks.BackpackLantern;
 import com.lime.backpacks.BackpackTier;
 import com.lime.backpacks.ModItems;
 import com.lime.backpacks.QuiverAmmo;
+import com.lime.backpacks.QuiverUser;
 import com.lime.backpacks.client.lighting.BackpackDynamicLights;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -43,6 +44,8 @@ public class BackpackRenderer implements TrinketRenderer {
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null) return;
+        var wearer = slotReference.inventory().getAttachment().getEntity();
+        Player player = wearer instanceof Player p ? p : null;
 
         // Render the mesh without applying a display transform. This prevents
         // the item-frame-only fixed scale/centering from changing the worn size
@@ -50,10 +53,10 @@ public class BackpackRenderer implements TrinketRenderer {
         lanternGlowRenderState.clear();
         mc.getItemModelResolver().updateForTopItem(
                 itemRenderState,
-                shaderSafeBackpackStack(stack),
+                shaderSafeBackpackStack(stack, player),
                 ItemDisplayContext.NONE,
                 mc.level,
-                slotReference.inventory().getAttachment().getEntity(),
+                wearer,
                 0
         );
 
@@ -110,7 +113,7 @@ public class BackpackRenderer implements TrinketRenderer {
         matrices.translate(0, -0.375, -0.19921875);
         matrices.scale(WORN_MODEL_SCALE, WORN_MODEL_SCALE, WORN_MODEL_SCALE);
         if (BackpackLantern.isEnabled(stack) && FabricLoader.getInstance().isModLoaded("lambdynlights")
-                && slotReference.inventory().getAttachment().getEntity() instanceof Player player) {
+                && player != null) {
             // Centers of vanilla_lantern_0 after lengthening the pack. The torso
             // matrix already includes WORN_MODEL_SCALE, just as for the mesh.
             boolean netherite = ((BackpackItem) stack.getItem()).getTier() == BackpackTier.NETHERITE;
@@ -131,12 +134,15 @@ public class BackpackRenderer implements TrinketRenderer {
         matrices.popPose();
     }
 
-    private static ItemStack shaderSafeBackpackStack(ItemStack stack) {
+    private static ItemStack shaderSafeBackpackStack(ItemStack stack, Player wearer) {
         String model = null;
         if (stack.is(ModItems.DIAMOND_BACKPACK)) {
             model = "diamond_backpack_unlit";
         } else if (stack.is(ModItems.NETHERITE_BACKPACK)) {
-            model = QuiverAmmo.hasStoredArrows(stack)
+            boolean arrows = QuiverAmmo.hasStoredArrows(stack)
+                    || (wearer != null && QuiverAmmo.hasAvailableArrows(wearer))
+                    || (wearer instanceof QuiverUser user && user.limesbackpacks$hasArrows());
+            model = arrows
                     ? "netherite_backpack_unlit"
                     : "netherite_backpack_empty_quiver_unlit";
         }

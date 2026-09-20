@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -33,6 +34,7 @@ public abstract class QuiverItemModelMixin {
                 || display == ItemDisplayContext.THIRD_PERSON_LEFT_HAND
                 || display == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
         boolean arrows = !quiver || QuiverAmmo.hasStoredArrows(stack)
+                || (context instanceof Player player && QuiverAmmo.hasAvailableArrows(player))
                 || (context instanceof QuiverUser user && user.limesbackpacks$hasArrows())
                 // ItemModelResolver may not provide the owning Player for a
                 // first-person hand render. Read the local inventory as a
