@@ -1,12 +1,12 @@
 package com.lime.backpacks;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 
 public final class BackpackLantern {
     private static final String ENABLED_KEY = "limesbackpacks:lantern_enabled";
@@ -20,23 +20,23 @@ public final class BackpackLantern {
     /** Existing and newly crafted lantern backpacks default to on. */
     public static boolean isEnabled(ItemStack stack) {
         if (!hasLantern(stack)) return false;
-        var data = stack.get(DataComponentTypes.CUSTOM_DATA);
-        return data == null || data.copyNbt().getBoolean(ENABLED_KEY, true);
+        var data = stack.get(DataComponents.CUSTOM_DATA);
+        return data == null || data.copyTag().getBooleanOr(ENABLED_KEY, true);
     }
 
     public static void toggle(ItemStack stack) {
         if (!hasLantern(stack)) return;
         boolean enabled = isEnabled(stack);
-        var data = stack.get(DataComponentTypes.CUSTOM_DATA);
-        NbtCompound nbt = data == null ? new NbtCompound() : data.copyNbt();
+        var data = stack.get(DataComponents.CUSTOM_DATA);
+        CompoundTag nbt = data == null ? new CompoundTag() : data.copyTag();
         nbt.putBoolean(ENABLED_KEY, !enabled);
-        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
     }
 
-    public static ItemStack findEquipped(Inventory back) {
+    public static ItemStack findEquipped(Container back) {
         if (back != null) {
-            for (int i = 0; i < back.size(); i++) {
-                if (hasLantern(back.getStack(i))) return back.getStack(i);
+            for (int i = 0; i < back.getContainerSize(); i++) {
+                if (hasLantern(back.getItem(i))) return back.getItem(i);
             }
         }
         return ItemStack.EMPTY;
@@ -49,20 +49,20 @@ public final class BackpackLantern {
     }
 
     /** Resolve ownership on the server; the client cannot name arbitrary items or players. */
-    public static void toggleFor(ServerPlayerEntity player) {
+    public static void toggleFor(ServerPlayer player) {
         if (!player.isAlive() || player.isSpectator()) return;
-        Inventory back = FabricLoader.getInstance().isModLoaded("trinkets")
+        Container back = FabricLoader.getInstance().isModLoaded("trinkets")
                 ? TrinketsCompat.getBackInventory(player) : null;
         ItemStack equipped = findEquipped(back);
-        ItemStack target = selectTarget(equipped, player.getMainHandStack(), player.getOffHandStack());
+        ItemStack target = selectTarget(equipped, player.getMainHandItem(), player.getOffhandItem());
         if (target.isEmpty()) return;
         toggle(target);
         if (target == equipped && back != null) {
-            back.markDirty();
+            back.setChanged();
             TrinketsCompat.syncQuiver(back);
         }
-        player.getInventory().markDirty();
-        player.currentScreenHandler.sendContentUpdates();
-        player.playerScreenHandler.sendContentUpdates();
+        player.getInventory().setChanged();
+        player.containerMenu.broadcastChanges();
+        player.inventoryMenu.broadcastChanges();
     }
 }

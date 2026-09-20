@@ -1,18 +1,18 @@
 package com.lime.backpacks;
 
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class ModRecipes {
     public static RecipeSerializer<BackpackUpgradeRecipe> BACKPACK_UPGRADE;
 
     public static void register() {
         BACKPACK_UPGRADE = Registry.register(
-                Registries.RECIPE_SERIALIZER,
-                Identifier.of("limesbackpacks", "backpack_upgrade"),
-                new BackpackUpgradeRecipe.Serializer()
+                BuiltInRegistries.RECIPE_SERIALIZER,
+                Identifier.fromNamespaceAndPath("limesbackpacks", "backpack_upgrade"),
+                BackpackUpgradeRecipe.Serializer.INSTANCE
         );
     }
 }

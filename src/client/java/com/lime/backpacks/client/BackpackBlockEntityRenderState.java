@@ -1,10 +1,10 @@
 package com.lime.backpacks.client;
 
-import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
-import net.minecraft.client.render.item.ItemRenderState;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 
 public final class BackpackBlockEntityRenderState extends BlockEntityRenderState {
-    public final ItemRenderState itemRenderState = new ItemRenderState();
-    public final ItemRenderState lanternGlowRenderState = new ItemRenderState();
+    public final ItemStackRenderState itemRenderState = new ItemStackRenderState();
+    public final ItemStackRenderState lanternGlowRenderState = new ItemStackRenderState();
     public int rotation;
 }

@@ -1,25 +1,22 @@
 package com.lime.backpacks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ContainerUser;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.Clearable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-
 import java.util.stream.IntStream;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.ContainerUser;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
-public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
+public class BackpackBlockEntity extends BlockEntity implements WorldlyContainer {
     private ItemStack backpackStack = ItemStack.EMPTY;
     private BackpackInventory inventory;
 
@@ -31,7 +28,7 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
         if (!(stack.getItem() instanceof BackpackItem backpack)) {
             this.backpackStack = ItemStack.EMPTY;
             this.inventory = null;
-            markDirty();
+            setChanged();
             return;
         }
 
@@ -39,7 +36,7 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
         this.backpackStack.setCount(1);
         this.inventory = new BackpackInventory(this.backpackStack, backpack.getTier().getSlotCount());
         syncLanternLight();
-        markDirty();
+        setChanged();
     }
 
     public ItemStack getBackpack() {
@@ -47,35 +44,35 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
     }
 
     private void syncLanternLight() {
-        if (world == null || world.isClient() || !getCachedState().contains(BackpackBlock.LIT)) return;
+        if (level == null || level.isClientSide() || !getBlockState().hasProperty(BackpackBlock.LIT)) return;
         boolean lit = BackpackLantern.isEnabled(backpackStack);
-        if (getCachedState().get(BackpackBlock.LIT) != lit) {
-            world.setBlockState(pos, getCachedState().with(BackpackBlock.LIT, lit), Block.NOTIFY_ALL);
+        if (getBlockState().getValue(BackpackBlock.LIT) != lit) {
+            level.setBlock(worldPosition, getBlockState().setValue(BackpackBlock.LIT, lit), Block.UPDATE_ALL);
         }
     }
 
     public void syncTier() {
         // Upgrade already-placed backpacks from before tier-specific particles.
-        if (world != null && !world.isClient() && backpackStack.getItem() instanceof BackpackItem item
-                && getCachedState().get(BackpackBlock.TIER) != item.getTier().ordinal()) {
-            world.setBlockState(pos, getCachedState().with(BackpackBlock.TIER, item.getTier().ordinal()), 3);
+        if (level != null && !level.isClientSide() && backpackStack.getItem() instanceof BackpackItem item
+                && getBlockState().getValue(BackpackBlock.TIER) != item.getTier().ordinal()) {
+            level.setBlock(worldPosition, getBlockState().setValue(BackpackBlock.TIER, item.getTier().ordinal()), 3);
         }
     }
 
     public ItemStack takeBackpack() {
-        if (inventory != null) inventory.markDirty();
+        if (inventory != null) inventory.setChanged();
         ItemStack result = backpackStack.copy();
         backpackStack = ItemStack.EMPTY;
         inventory = null;
-        markDirty();
+        setChanged();
         return result;
     }
 
     @Override
-    public void onBlockReplaced(BlockPos pos, BlockState oldState) {
+    public void preRemoveSideEffects(BlockPos pos, BlockState oldState) {
         // BlockEntity's default implementation scatters every Inventory into
         // the world. Our block loot returns the whole bag with its contents.
-        if (inventory != null) inventory.markDirty();
+        if (inventory != null) inventory.setChanged();
     }
 
     private BackpackInventory contents() {
@@ -83,21 +80,21 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
     }
 
     @Override
-    protected void readData(ReadView view) {
+    protected void loadAdditional(ValueInput view) {
         backpackStack = ItemStack.EMPTY;
         inventory = null;
         view.read("Backpack", ItemStack.CODEC).ifPresent(this::loadBackpack);
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         // The renderer needs the stored item, including its lantern/quiver state.
-        return createNbt(registries);
+        return saveWithoutMetadata(registries);
     }
 
     @Override
-    public BlockEntityUpdateS2CPacket toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     private void loadBackpack(ItemStack stack) {
@@ -110,15 +107,15 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
     }
 
     @Override
-    protected void writeData(WriteView view) {
+    protected void saveAdditional(ValueOutput view) {
         if (!backpackStack.isEmpty()) {
-            view.put("Backpack", ItemStack.CODEC, backpackStack);
+            view.store("Backpack", ItemStack.CODEC, backpackStack);
         }
     }
 
     @Override
-    public int size() {
-        return contents() == null ? 0 : contents().size();
+    public int getContainerSize() {
+        return contents() == null ? 0 : contents().getContainerSize();
     }
 
     @Override
@@ -127,80 +124,80 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
     }
 
     @Override
-    public ItemStack getStack(int slot) {
-        return contents() == null ? ItemStack.EMPTY : contents().getStack(slot);
+    public ItemStack getItem(int slot) {
+        return contents() == null ? ItemStack.EMPTY : contents().getItem(slot);
     }
 
     @Override
-    public ItemStack removeStack(int slot, int amount) {
+    public ItemStack removeItem(int slot, int amount) {
         if (contents() == null) return ItemStack.EMPTY;
-        ItemStack result = contents().removeStack(slot, amount);
-        markDirty();
+        ItemStack result = contents().removeItem(slot, amount);
+        setChanged();
         return result;
     }
 
     @Override
-    public ItemStack removeStack(int slot) {
+    public ItemStack removeItemNoUpdate(int slot) {
         if (contents() == null) return ItemStack.EMPTY;
-        ItemStack result = contents().removeStack(slot);
-        markDirty();
+        ItemStack result = contents().removeItemNoUpdate(slot);
+        setChanged();
         return result;
     }
 
     @Override
-    public void setStack(int slot, ItemStack stack) {
+    public void setItem(int slot, ItemStack stack) {
         if (contents() == null) return;
-        contents().setStack(slot, stack);
-        markDirty();
+        contents().setItem(slot, stack);
+        setChanged();
     }
 
     @Override
-    public void markDirty() {
+    public void setChanged() {
         // Slot clicks and hopper merges can mutate an existing stack directly.
-        if (inventory != null) inventory.markDirty();
-        super.markDirty();
-        if (world != null && !world.isClient()) {
-            world.updateListeners(pos, getCachedState(), getCachedState(), 3);
+        if (inventory != null) inventory.setChanged();
+        super.setChanged();
+        if (level != null && !level.isClientSide()) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 
     @Override
-    public boolean canPlayerUse(PlayerEntity player) {
-        return !isRemoved() && world != null && world.getBlockEntity(pos) == this
-                && player.squaredDistanceTo(pos.toCenterPos()) <= 64.0;
+    public boolean stillValid(Player player) {
+        return !isRemoved() && level != null && level.getBlockEntity(worldPosition) == this
+                && player.distanceToSqr(worldPosition.getCenter()) <= 64.0;
     }
 
     @Override
-    public void onOpen(ContainerUser user) {
-        if (contents() != null) contents().onOpen(user);
+    public void startOpen(ContainerUser user) {
+        if (contents() != null) contents().startOpen(user);
     }
 
     @Override
-    public void onClose(ContainerUser user) {
-        if (contents() != null) contents().onClose(user);
+    public void stopOpen(ContainerUser user) {
+        if (contents() != null) contents().stopOpen(user);
     }
 
     @Override
-    public void clear() {
+    public void clearContent() {
         if (contents() != null) {
-            contents().clear();
-            markDirty();
+            contents().clearContent();
+            setChanged();
         }
     }
 
     @Override
-    public int[] getAvailableSlots(Direction side) {
-        return IntStream.range(0, size()).toArray();
+    public int[] getSlotsForFace(Direction side) {
+        return IntStream.range(0, getContainerSize()).toArray();
     }
 
     @Override
-    public boolean canInsert(int slot, ItemStack stack, Direction side) {
-        return slot >= 0 && slot < size() && !(stack.getItem() instanceof BackpackItem)
-                && getStack(slot).getCount() < getMaxCount(stack);
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return slot >= 0 && slot < getContainerSize() && !(stack.getItem() instanceof BackpackItem)
+                && getItem(slot).getCount() < getMaxStackSize(stack);
     }
 
     @Override
-    public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return slot >= 0 && slot < size();
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return slot >= 0 && slot < getContainerSize();
     }
 }

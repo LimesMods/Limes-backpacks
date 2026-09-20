@@ -8,12 +8,12 @@ import dev.lambdaurora.lambdynlights.api.DynamicLightsInitializer;
 import dev.lambdaurora.lambdynlights.api.behavior.DynamicLightBehaviorManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.Vec3;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,7 +22,7 @@ import java.util.UUID;
 /** Only LambDynamicLights loads this optional entrypoint; dedicated servers never do. */
 public final class BackpackDynamicLights implements DynamicLightsInitializer {
     private static final Map<UUID, WornLanternLight> LIGHTS = new HashMap<>();
-    private ClientWorld world;
+    private ClientLevel world;
 
     @Override
     public void onInitializeDynamicLights(DynamicLightsContext context) {
@@ -34,12 +34,12 @@ public final class BackpackDynamicLights implements DynamicLightsInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> tick(client, context));
     }
 
-    private void tick(MinecraftClient client, DynamicLightsContext context) {
+    private void tick(Minecraft client, DynamicLightsContext context) {
         var manager = context.dynamicLightBehaviorManager();
-        if (world != client.world) {
+        if (world != client.level) {
             LIGHTS.values().forEach(light -> { light.remove(); manager.remove(light); });
             LIGHTS.clear();
-            world = client.world;
+            world = client.level;
         }
         if (world == null) return;
         var active = new HashSet<UUID>();
@@ -50,18 +50,18 @@ public final class BackpackDynamicLights implements DynamicLightsInitializer {
         boolean irisShaderLighting = FabricLoader.getInstance().isModLoaded("iris")
                 && IrisShaderCompat.isShaderPackActive();
         if (FabricLoader.getInstance().isModLoaded("trinkets") && !irisShaderLighting) {
-            for (PlayerEntity player : world.getPlayers()) {
+            for (Player player : world.players()) {
                 if (!player.isAlive() || player.isSpectator() || !TrinketsCompat.hasEquippedLitLantern(player)) continue;
-                active.add(player.getUuid());
-                WornLanternLight light = LIGHTS.get(player.getUuid());
+                active.add(player.getUUID());
+                WornLanternLight light = LIGHTS.get(player.getUUID());
                 if (light == null) {
                     light = new WornLanternLight();
-                    LIGHTS.put(player.getUuid(), light);
+                    LIGHTS.put(player.getUUID(), light);
                     light.update(fallbackPosition(player), 15);
                     manager.add(light);
                 }
                 int luminance = context.itemLightSourceManager().getLuminance(
-                        new ItemStack(Items.LANTERN), player.isSubmergedInWater());
+                        new ItemStack(Items.LANTERN), player.isUnderWater());
                 light.tick(player, luminance);
             }
         }
@@ -74,20 +74,20 @@ public final class BackpackDynamicLights implements DynamicLightsInitializer {
 
     }
 
-    public static void captureAnchor(PlayerEntity player, Vec3d anchor) {
-        WornLanternLight light = LIGHTS.get(player.getUuid());
+    public static void captureAnchor(Player player, Vec3 anchor) {
+        WornLanternLight light = LIGHTS.get(player.getUUID());
         // Ignore inventory/GUI entity previews and any non-world rendering matrices.
-        if (light != null && anchor.squaredDistanceTo(player.getEntityPos()) < 9) {
+        if (light != null && anchor.distanceToSqr(player.position()) < 9) {
             light.captureAnchor(player, anchor);
         }
     }
 
-    static Vec3d fallbackPosition(PlayerEntity player) {
+    static Vec3 fallbackPosition(Player player) {
         // Also works in first person and for off-screen players, where no model is rendered.
-        Vec3d offset = new Vec3d(-.36, player.isSneaking() ? .77 : .96, -.40);
-        if (player.isInSwimmingPose() || player.isGliding()) {
-            offset = new Vec3d(-.36, .30, -.32);
+        Vec3 offset = new Vec3(-.36, player.isShiftKeyDown() ? .77 : .96, -.40);
+        if (player.isVisuallySwimming() || player.isFallFlying()) {
+            offset = new Vec3(-.36, .30, -.32);
         }
-        return player.getEntityPos().add(offset.rotateY((float) Math.toRadians(-player.bodyYaw)));
+        return player.position().add(offset.yRot((float) Math.toRadians(-player.yBodyRot)));
     }
 }

@@ -1,6 +1,6 @@
 # Lime's Backpacks
 
-Lime's Backpacks adds six wearable backpacks to Fabric 1.21.11. Each tier has its own capacity, materials, model details and equipment loadout.
+Lime's Backpacks adds six wearable backpacks to Fabric 26.1. Each tier has its own capacity, materials, model details and equipment loadout.
 
 ## Features
 
@@ -16,10 +16,10 @@ Lime's Backpacks adds six wearable backpacks to Fabric 1.21.11. Each tier has it
 
 ## Requirements
 
-- Minecraft 1.21.11
-- Fabric Loader 0.19.2 or newer
+- Minecraft 26.1
+- Fabric Loader 0.19.5 or newer
 - Fabric API
-- Java 21
+- Java 25
 
 Trinkets Updated and LambDynamicLights are optional integrations. They are suggested by the mod and are not bundled, so the backpack storage and ordinary lantern features work without either one.
 

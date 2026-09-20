@@ -4,8 +4,8 @@ import com.lime.backpacks.TrinketsCompat;
 import com.lime.backpacks.client.CarriedLanternLight;
 import it.unimi.dsi.fastutil.objects.Object2IntFunction;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Hand;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
 import org.joml.Vector3f;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Final;
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Pseudo
 @Mixin(targets = "net.irisshaders.iris.uniforms.IdMapUniforms$HeldItemSupplier", remap = false)
 public abstract class IrisCarriedLanternMixin {
-    @Shadow @Final private Hand hand;
+    @Shadow @Final private InteractionHand hand;
     @Shadow @Final private Object2IntFunction<Object> itemIdMap;
     @Shadow private int intID;
     @Shadow private int lightValue;
@@ -34,12 +34,12 @@ public abstract class IrisCarriedLanternMixin {
 
     @Inject(method = "update", at = @At("TAIL"), require = 1, remap = false)
     private void limesbackpacks$updateCarriedLight(CallbackInfo ci) {
-        var player = MinecraftClient.getInstance().player;
+        var player = Minecraft.getInstance().player;
         if (player == null || !player.isAlive() || player.isSpectator()) return;
         boolean worn = FabricLoader.getInstance().isModLoaded("trinkets")
                 && TrinketsCompat.hasEquippedLitLantern(player);
-        if (!CarriedLanternLight.useLantern(hand, player.getMainHandStack(),
-                player.getOffHandStack(), worn, lightValue)) return;
+        if (!CarriedLanternLight.useLantern(hand, player.getMainHandItem(),
+                player.getOffhandItem(), worn, lightValue)) return;
 
         if (!limesbackpacks$resolved) {
             limesbackpacks$resolved = true;

@@ -1,34 +1,34 @@
 package com.lime.backpacks;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ContainerComponent;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 
-public class BackpackInventory extends SimpleInventory {
+public class BackpackInventory extends SimpleContainer {
     private final ItemStack backpackStack;
 
     public BackpackInventory(ItemStack stack, int size) {
         super(size);
         this.backpackStack = stack;
-        ContainerComponent component = stack.get(DataComponentTypes.CONTAINER);
+        ItemContainerContents component = stack.get(DataComponents.CONTAINER);
         if (component != null) {
-            DefaultedList<ItemStack> loaded = DefaultedList.ofSize(size, ItemStack.EMPTY);
-            component.copyTo(loaded);
+            NonNullList<ItemStack> loaded = NonNullList.withSize(size, ItemStack.EMPTY);
+            component.copyInto(loaded);
             for (int i = 0; i < size; i++) {
-                setStack(i, loaded.get(i));
+                setItem(i, loaded.get(i));
             }
         }
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
-        DefaultedList<ItemStack> stacks = DefaultedList.ofSize(size(), ItemStack.EMPTY);
-        for (int i = 0; i < size(); i++) {
-            stacks.set(i, getStack(i));
+    public void setChanged() {
+        super.setChanged();
+        NonNullList<ItemStack> stacks = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+        for (int i = 0; i < getContainerSize(); i++) {
+            stacks.set(i, getItem(i));
         }
-        backpackStack.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(stacks));
+        backpackStack.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(stacks));
     }
 }

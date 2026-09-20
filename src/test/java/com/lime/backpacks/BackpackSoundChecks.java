@@ -1,9 +1,9 @@
 package com.lime.backpacks;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 final class BackpackSoundChecks {
     static void run() {
@@ -15,8 +15,8 @@ final class BackpackSoundChecks {
         var added = BackpackEquipSounds.change(empty, equipped);
         check(added != null && added.equipping(), "Equip sound missing");
         BackpackLantern.toggle(bag);
-        bag.set(DataComponentTypes.CUSTOM_NAME, Text.literal("Renamed"));
-        new BackpackInventory(bag, 81).setStack(0, new ItemStack(Items.ARROW, 12));
+        bag.set(DataComponents.CUSTOM_NAME, Component.literal("Renamed"));
+        new BackpackInventory(bag, 81).setItem(0, new ItemStack(Items.ARROW, 12));
         check(BackpackEquipSounds.change(equipped, BackpackEquipSounds.snapshot(bag, world)) == null,
                 "Contents, name or lantern updates replayed equip sound");
         var refreshed = BackpackEquipSounds.change(equipped,

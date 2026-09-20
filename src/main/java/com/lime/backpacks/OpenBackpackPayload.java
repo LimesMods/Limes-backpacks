@@ -1,16 +1,16 @@
 package com.lime.backpacks;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 
-public record OpenBackpackPayload() implements CustomPayload {
-    public static final Id<OpenBackpackPayload> ID = new Id<>(Identifier.of("limesbackpacks", "open_backpack"));
-    public static final PacketCodec<RegistryByteBuf, OpenBackpackPayload> CODEC = PacketCodec.unit(new OpenBackpackPayload());
+public record OpenBackpackPayload() implements CustomPacketPayload {
+    public static final Type<OpenBackpackPayload> ID = new Type<>(Identifier.fromNamespaceAndPath("limesbackpacks", "open_backpack"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, OpenBackpackPayload> CODEC = StreamCodec.unit(new OpenBackpackPayload());
 
     @Override
-    public Id<OpenBackpackPayload> getId() {
+    public Type<OpenBackpackPayload> type() {
         return ID;
     }
 }

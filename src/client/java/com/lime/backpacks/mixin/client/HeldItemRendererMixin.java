@@ -2,18 +2,18 @@ package com.lime.backpacks.mixin.client;
 
 import com.lime.backpacks.BackpackLantern;
 import com.lime.backpacks.ModItems;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.item.HeldItemRenderer;
-import net.minecraft.client.render.item.ItemRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemDisplayContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,16 +25,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * The backpack itself is switched to its unlit model by QuiverItemModelMixin,
  * so Complementary cannot apply the lantern material to the whole backpack.
  */
-@Mixin(HeldItemRenderer.class)
+@Mixin(ItemInHandRenderer.class)
 public abstract class HeldItemRendererMixin {
     @Unique
-    private final ItemRenderState limesbackpacks$lanternGlow = new ItemRenderState();
+    private final ItemStackRenderState limesbackpacks$lanternGlow = new ItemStackRenderState();
 
     @Inject(
-            method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemDisplayContext;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;I)V",
+            method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/render/item/ItemRenderState;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;III)V",
+                    target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V",
                     shift = At.Shift.AFTER
             ),
             require = 1
@@ -43,8 +43,8 @@ public abstract class HeldItemRendererMixin {
             LivingEntity player,
             ItemStack stack,
             ItemDisplayContext display,
-            MatrixStack matrices,
-            OrderedRenderCommandQueue renderQueue,
+            PoseStack matrices,
+            SubmitNodeCollector renderQueue,
             int light,
             CallbackInfo ci) {
         if (!BackpackLantern.hasLantern(stack) || !BackpackLantern.isEnabled(stack)) return;
@@ -52,25 +52,25 @@ public abstract class HeldItemRendererMixin {
         Identifier model = lanternModel(stack);
         if (model == null) return;
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         ItemStack lantern = new ItemStack(Items.LANTERN);
-        lantern.set(DataComponentTypes.ITEM_MODEL, model);
+        lantern.set(DataComponents.ITEM_MODEL, model);
         limesbackpacks$lanternGlow.clear();
-        client.getItemModelManager().updateForLivingEntity(
+        client.getItemModelResolver().updateForLiving(
                 limesbackpacks$lanternGlow, lantern, display, player);
-        limesbackpacks$lanternGlow.render(
+        limesbackpacks$lanternGlow.submit(
                 matrices, renderQueue,
-                net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE,
-                OverlayTexture.DEFAULT_UV, 0);
+                0xF000F0,
+                OverlayTexture.NO_OVERLAY, 0);
     }
 
     @Unique
     private static Identifier lanternModel(ItemStack stack) {
-        if (stack.isOf(ModItems.DIAMOND_BACKPACK)) {
-            return Identifier.of("limesbackpacks", "diamond_backpack_lantern_glow");
+        if (stack.is(ModItems.DIAMOND_BACKPACK)) {
+            return Identifier.fromNamespaceAndPath("limesbackpacks", "diamond_backpack_lantern_glow");
         }
-        if (stack.isOf(ModItems.NETHERITE_BACKPACK)) {
-            return Identifier.of("limesbackpacks", "netherite_backpack_lantern_glow");
+        if (stack.is(ModItems.NETHERITE_BACKPACK)) {
+            return Identifier.fromNamespaceAndPath("limesbackpacks", "netherite_backpack_lantern_glow");
         }
         return null;
     }

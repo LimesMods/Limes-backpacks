@@ -2,7 +2,7 @@ package com.lime.backpacks.mixin.client;
 
 import com.lime.backpacks.client.IrisShaderCompat;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;

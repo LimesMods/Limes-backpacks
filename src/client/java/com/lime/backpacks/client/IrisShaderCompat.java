@@ -3,12 +3,12 @@ package com.lime.backpacks.client;
 import com.lime.backpacks.BackpackBlock;
 import com.lime.backpacks.ModBlocks;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Makes lit placed backpacks use the same shader material as a vanilla lantern.
@@ -61,7 +61,7 @@ public final class IrisShaderCompat {
         if (mapping == null) return null;
 
         int materialId = -1;
-        for (BlockState lanternState : Blocks.LANTERN.getStateManager().getStates()) {
+        for (BlockState lanternState : Blocks.LANTERN.getStateDefinition().getPossibleStates()) {
             if (mapping.containsKey(lanternState)) {
                 materialId = mapping.getInt(lanternState);
                 break;
@@ -76,8 +76,8 @@ public final class IrisShaderCompat {
         }
 
         int mappedStates = 0;
-        for (BlockState backpackState : ModBlocks.BACKPACK_BLOCK.getStateManager().getStates()) {
-            if (backpackState.get(BackpackBlock.LIT)) {
+        for (BlockState backpackState : ModBlocks.BACKPACK_BLOCK.getStateDefinition().getPossibleStates()) {
+            if (backpackState.getValue(BackpackBlock.LIT)) {
                 mapping.put(backpackState, materialId);
                 mappedStates++;
             }

@@ -1,24 +1,24 @@
 package com.lime.backpacks;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 
 public class BackpackItem extends Item {
     private final BackpackTier tier;
 
-    public BackpackItem(BackpackTier tier, Item.Settings settings) {
+    public BackpackItem(BackpackTier tier, Item.Properties settings) {
         super(settings);
         this.tier = tier;
     }
@@ -27,48 +27,48 @@ public class BackpackItem extends Item {
         return tier;
     }
 
-    public ExtendedScreenHandlerFactory<Integer> createScreenFactory(ItemStack stack, Inventory inventory) {
-        return new ExtendedScreenHandlerFactory<Integer>() {
+    public ExtendedMenuProvider<Integer> createScreenFactory(ItemStack stack, Container inventory) {
+        return new ExtendedMenuProvider<Integer>() {
             @Override
-            public Integer getScreenOpeningData(ServerPlayerEntity player) {
+            public Integer getScreenOpeningData(ServerPlayer player) {
                 return tier.getRows();
             }
 
             @Override
-            public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+            public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
                 return new BackpackScreenHandler(syncId, playerInventory, inventory, tier.getRows());
             }
 
             @Override
-            public Text getDisplayName() {
-                return Text.translatable("item.limesbackpacks." + tier.getId() + "_backpack");
+            public Component getDisplayName() {
+                return Component.translatable("item.limesbackpacks." + tier.getId() + "_backpack");
             }
         };
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-        if (!world.isClient()) {
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+        ItemStack stack = user.getItemInHand(hand);
+        if (!world.isClientSide()) {
             if (FabricLoader.getInstance().isModLoaded("trinkets")
-                    && user instanceof ServerPlayerEntity serverPlayer
+                    && user instanceof ServerPlayer serverPlayer
                     && TrinketsCompat.equipFromHand(serverPlayer, hand)) {
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
             BackpackInventory inventory = new BackpackInventory(stack, tier.getSlotCount());
-            user.openHandledScreen(createScreenFactory(stack, inventory));
+            user.openMenu(createScreenFactory(stack, inventory));
         }
-        return ActionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        if (context.getPlayer() == null || !context.getPlayer().isSneaking()) {
-            return super.useOnBlock(context);
+    public InteractionResult useOn(UseOnContext context) {
+        if (context.getPlayer() == null || !context.getPlayer().isShiftKeyDown()) {
+            return super.useOn(context);
         }
 
-        World world = context.getWorld();
-        return BackpackPlacement.tryPlace(world, context.getPlayer(), context.getBlockPos(),
-                context.getSide(), context.getPlayerYaw(), context.getStack());
+        Level world = context.getLevel();
+        return BackpackPlacement.tryPlace(world, context.getPlayer(), context.getClickedPos(),
+                context.getClickedFace(), context.getRotation(), context.getItemInHand());
     }
 }

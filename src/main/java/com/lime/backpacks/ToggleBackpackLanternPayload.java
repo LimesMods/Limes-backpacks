@@ -1,16 +1,16 @@
 package com.lime.backpacks;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 
-public record ToggleBackpackLanternPayload() implements CustomPayload {
-    public static final Id<ToggleBackpackLanternPayload> ID =
-            new Id<>(Identifier.of("limesbackpacks", "toggle_lantern"));
-    public static final PacketCodec<RegistryByteBuf, ToggleBackpackLanternPayload> CODEC =
-            PacketCodec.unit(new ToggleBackpackLanternPayload());
+public record ToggleBackpackLanternPayload() implements CustomPacketPayload {
+    public static final Type<ToggleBackpackLanternPayload> ID =
+            new Type<>(Identifier.fromNamespaceAndPath("limesbackpacks", "toggle_lantern"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ToggleBackpackLanternPayload> CODEC =
+            StreamCodec.unit(new ToggleBackpackLanternPayload());
 
     @Override
-    public Id<ToggleBackpackLanternPayload> getId() { return ID; }
+    public Type<ToggleBackpackLanternPayload> type() { return ID; }
 }

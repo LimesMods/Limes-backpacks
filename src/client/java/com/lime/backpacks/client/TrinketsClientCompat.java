@@ -1,7 +1,7 @@
 package com.lime.backpacks.client;
 
 import com.lime.backpacks.ModItems;
-import dev.emi.trinkets.api.client.TrinketRendererRegistry;
+import eu.pb4.trinkets.api.client.TrinketRendererRegistry;
 
 public class TrinketsClientCompat {
 

@@ -1,19 +1,20 @@
 package com.lime.backpacks;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ContainerComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.recipe.display.RecipeDisplay;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.world.World;
-
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.level.Level;
 import java.util.List;
 
 public class BackpackUpgradeRecipe implements CraftingRecipe {
@@ -24,19 +25,19 @@ public class BackpackUpgradeRecipe implements CraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingRecipeInput input, World world) {
+    public boolean matches(CraftingInput input, Level world) {
         return delegate.matches(input, world);
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
-        ItemStack result = delegate.craft(input, lookup);
+    public ItemStack assemble(CraftingInput input) {
+        ItemStack result = delegate.assemble(input);
         for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getStackInSlot(i);
+            ItemStack stack = input.getItem(i);
             if (stack.getItem() instanceof BackpackItem) {
-                ContainerComponent container = stack.get(DataComponentTypes.CONTAINER);
+                ItemContainerContents container = stack.get(DataComponents.CONTAINER);
                 if (container != null) {
-                    result.set(DataComponentTypes.CONTAINER, container);
+                    result.set(DataComponents.CONTAINER, container);
                 }
                 break;
             }
@@ -50,23 +51,23 @@ public class BackpackUpgradeRecipe implements CraftingRecipe {
     }
 
     @Override
-    public CraftingRecipeCategory getCategory() {
-        return delegate.getCategory();
+    public CraftingBookCategory category() {
+        return delegate.category();
     }
 
     @Override
-    public IngredientPlacement getIngredientPlacement() {
-        return delegate.getIngredientPlacement();
+    public PlacementInfo placementInfo() {
+        return delegate.placementInfo();
     }
 
     @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return delegate.getRecipeBookCategory();
+    public RecipeBookCategory recipeBookCategory() {
+        return delegate.recipeBookCategory();
     }
 
     @Override
-    public String getGroup() {
-        return delegate.getGroup();
+    public String group() {
+        return delegate.group();
     }
 
     @Override
@@ -75,31 +76,24 @@ public class BackpackUpgradeRecipe implements CraftingRecipe {
     }
 
     @Override
-    public List<RecipeDisplay> getDisplays() {
-        return delegate.getDisplays();
+    public List<RecipeDisplay> display() {
+        return delegate.display();
     }
 
-    public static class Serializer implements RecipeSerializer<BackpackUpgradeRecipe> {
+    public static class Serializer {
         private static final MapCodec<BackpackUpgradeRecipe> CODEC =
-                ShapedRecipe.Serializer.CODEC.xmap(
+                ShapedRecipe.MAP_CODEC.xmap(
                         BackpackUpgradeRecipe::new,
                         r -> r.delegate
                 );
 
-        private static final PacketCodec<RegistryByteBuf, BackpackUpgradeRecipe> PACKET_CODEC =
-                ShapedRecipe.Serializer.PACKET_CODEC.xmap(
+        private static final StreamCodec<RegistryFriendlyByteBuf, BackpackUpgradeRecipe> PACKET_CODEC =
+                ShapedRecipe.STREAM_CODEC.map(
                         BackpackUpgradeRecipe::new,
                         r -> r.delegate
                 );
 
-        @Override
-        public MapCodec<BackpackUpgradeRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public PacketCodec<RegistryByteBuf, BackpackUpgradeRecipe> packetCodec() {
-            return PACKET_CODEC;
-        }
+        public static final RecipeSerializer<BackpackUpgradeRecipe> INSTANCE =
+                new RecipeSerializer<>(CODEC, PACKET_CODEC);
     }
 }

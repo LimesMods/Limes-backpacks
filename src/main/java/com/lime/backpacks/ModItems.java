@@ -1,11 +1,11 @@
 package com.lime.backpacks;
 
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 
 public class ModItems {
     public static Item LEATHER_BACKPACK;
@@ -25,11 +25,11 @@ public class ModItems {
     }
 
     private static Item registerBackpack(String name, BackpackTier tier) {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Identifier.of("limesbackpacks", name));
-        Item.Settings settings = new Item.Settings().registryKey(key).maxCount(1);
-        if (tier == BackpackTier.NETHERITE) settings.fireproof();
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("limesbackpacks", name));
+        Item.Properties settings = new Item.Properties().setId(key).stacksTo(1);
+        if (tier == BackpackTier.NETHERITE) settings.fireResistant();
         return Registry.register(
-                Registries.ITEM,
+                BuiltInRegistries.ITEM,
                 key,
                 new BackpackItem(tier, settings)
         );

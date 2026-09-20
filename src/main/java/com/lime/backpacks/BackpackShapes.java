@@ -1,12 +1,12 @@
 package com.lime.backpacks;
 
 import com.google.gson.JsonParser;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import org.joml.Vector3f;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** Uses the same mesh vertices and centering as the placed item renderer. */
 public final class BackpackShapes {
@@ -58,7 +58,7 @@ public final class BackpackShapes {
                     var v = new Vector3f(vertex).sub(center).div(16).rotateY(angle).add(.5f, 0, .5f);
                     low.min(v); high.max(v);
                 }
-                SHAPES[tier.ordinal()][rotation] = VoxelShapes.cuboid(low.x, 0, low.z, high.x, high.y, high.z);
+                SHAPES[tier.ordinal()][rotation] = Shapes.box(low.x, 0, low.z, high.x, high.y, high.z);
             }
         } catch (Exception e) { throw new IllegalStateException("Cannot load backpack hitbox: " + path, e); }
     }

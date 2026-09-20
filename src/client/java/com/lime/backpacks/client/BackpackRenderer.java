@@ -6,81 +6,81 @@ import com.lime.backpacks.BackpackTier;
 import com.lime.backpacks.ModItems;
 import com.lime.backpacks.QuiverAmmo;
 import com.lime.backpacks.client.lighting.BackpackDynamicLights;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.client.TrinketRenderer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.client.render.item.ItemRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemDisplayContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import eu.pb4.trinkets.api.TrinketSlotAccess;
+import eu.pb4.trinkets.api.client.TrinketRenderer;
 
 public class BackpackRenderer implements TrinketRenderer {
     // Keep wearable rendering at its established scale. ItemDisplayContext.FIXED
     // is reserved for frames, where the backpack intentionally uses the larger
     // frame transform.
     private static final float WORN_MODEL_SCALE = 0.75f;
-    private final ItemRenderState itemRenderState = new ItemRenderState();
-    private final ItemRenderState lanternGlowRenderState = new ItemRenderState();
+    private final ItemStackRenderState itemRenderState = new ItemStackRenderState();
+    private final ItemStackRenderState lanternGlowRenderState = new ItemStackRenderState();
 
     @Override
-    public void render(ItemStack stack, SlotReference slotReference,
+    public void submit(ItemStack stack, TrinketSlotAccess slotReference,
                        EntityModel<? extends LivingEntityRenderState> contextModel,
-                       MatrixStack matrices, OrderedRenderCommandQueue renderQueue, int light,
+                       PoseStack matrices, SubmitNodeCollector renderQueue, int light,
                        LivingEntityRenderState renderState, float limbAngle, float limbDistance) {
 
-        MinecraftClient mc = MinecraftClient.getInstance();
-        if (mc.world == null) return;
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null) return;
 
         // Render the mesh without applying a display transform. This prevents
         // the item-frame-only fixed scale/centering from changing the worn size
         // or moving the backpack on the player's back.
         lanternGlowRenderState.clear();
-        mc.getItemModelManager().clearAndUpdate(
+        mc.getItemModelResolver().updateForTopItem(
                 itemRenderState,
                 shaderSafeBackpackStack(stack),
                 ItemDisplayContext.NONE,
-                mc.world,
-                slotReference.inventory().getComponent().getEntity(),
+                mc.level,
+                slotReference.inventory().getAttachment().getEntity(),
                 0
         );
 
         Identifier glowModel = lanternGlowModel(stack);
         if (glowModel != null) {
             ItemStack lantern = new ItemStack(Items.LANTERN);
-            lantern.set(DataComponentTypes.ITEM_MODEL, glowModel);
-            mc.getItemModelManager().clearAndUpdate(
+            lantern.set(DataComponents.ITEM_MODEL, glowModel);
+            mc.getItemModelResolver().updateForTopItem(
                     lanternGlowRenderState,
                     lantern,
                     ItemDisplayContext.NONE,
-                    mc.world,
-                    slotReference.inventory().getComponent().getEntity(),
+                    mc.level,
+                    slotReference.inventory().getAttachment().getEntity(),
                     0
             );
         }
 
         if (itemRenderState.isEmpty()) return;
 
-        matrices.push();
+        matrices.pushPose();
 
         // Trinkets supplies the entity transform (including swimming/flight).
         // Follow the same root -> body hierarchy as the torso mesh, including
         // animated origins, rotations and scale from vanilla or Fresh Moves.
-        if (contextModel instanceof BipedEntityModel<?> biped) {
-            biped.getRootPart().applyTransform(matrices);
-            biped.body.applyTransform(matrices);
+        if (contextModel instanceof HumanoidModel<?> biped) {
+            biped.root().translateAndRotate(matrices);
+            biped.body.translateAndRotate(matrices);
         }
 
         // Raise the three upper tiers by one player-model pixel toward the
@@ -95,7 +95,7 @@ public class BackpackRenderer implements TrinketRenderer {
 
         // One attachment offset in torso-local coordinates for every pose.
         // Preserve the accepted standing alignment and item-model orientation.
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
+        matrices.mulPose(Axis.XP.rotationDegrees(180));
         matrices.translate(0, -0.5, -0.25);
 
         // Clearance from the back now follows the torso in every pose.
@@ -110,32 +110,32 @@ public class BackpackRenderer implements TrinketRenderer {
         matrices.translate(0, -0.375, -0.19921875);
         matrices.scale(WORN_MODEL_SCALE, WORN_MODEL_SCALE, WORN_MODEL_SCALE);
         if (BackpackLantern.isEnabled(stack) && FabricLoader.getInstance().isModLoaded("lambdynlights")
-                && slotReference.inventory().getComponent().getEntity() instanceof PlayerEntity player) {
+                && slotReference.inventory().getAttachment().getEntity() instanceof Player player) {
             // Centers of vanilla_lantern_0 after lengthening the pack. The torso
             // matrix already includes WORN_MODEL_SCALE, just as for the mesh.
             boolean netherite = ((BackpackItem) stack.getItem()).getTier() == BackpackTier.NETHERITE;
             Vector3f center = new Vector3f(netherite ? 13.8f : 13.58f,
                     netherite ? 8.632f : 9.0f, netherite ? 5.949f : 6.031f);
             center.div(16).sub(.5f, .5f, .5f);
-            matrices.peek().getPositionMatrix().transformPosition(center);
-            Vec3d camera = mc.gameRenderer.getCamera().getCameraPos();
+            matrices.last().pose().transformPosition(center);
+            Vec3 camera = mc.gameRenderer.getMainCamera().position();
             BackpackDynamicLights.captureAnchor(player, camera.add(center.x, center.y, center.z));
         }
-        itemRenderState.render(matrices, renderQueue, light, OverlayTexture.DEFAULT_UV, 0);
+        itemRenderState.submit(matrices, renderQueue, light, OverlayTexture.NO_OVERLAY, 0);
         if (!lanternGlowRenderState.isEmpty()) {
-            lanternGlowRenderState.render(matrices, renderQueue,
-                    net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE,
-                    OverlayTexture.DEFAULT_UV, 0);
+            lanternGlowRenderState.submit(matrices, renderQueue,
+                    0xF000F0,
+                    OverlayTexture.NO_OVERLAY, 0);
         }
 
-        matrices.pop();
+        matrices.popPose();
     }
 
     private static ItemStack shaderSafeBackpackStack(ItemStack stack) {
         String model = null;
-        if (stack.isOf(ModItems.DIAMOND_BACKPACK)) {
+        if (stack.is(ModItems.DIAMOND_BACKPACK)) {
             model = "diamond_backpack_unlit";
-        } else if (stack.isOf(ModItems.NETHERITE_BACKPACK)) {
+        } else if (stack.is(ModItems.NETHERITE_BACKPACK)) {
             model = QuiverAmmo.hasStoredArrows(stack)
                     ? "netherite_backpack_unlit"
                     : "netherite_backpack_empty_quiver_unlit";
@@ -143,17 +143,17 @@ public class BackpackRenderer implements TrinketRenderer {
         if (model == null || !BackpackLantern.isEnabled(stack)) return stack;
 
         ItemStack renderStack = stack.copy();
-        renderStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of("limesbackpacks", model));
+        renderStack.set(DataComponents.ITEM_MODEL, Identifier.fromNamespaceAndPath("limesbackpacks", model));
         return renderStack;
     }
 
     private static Identifier lanternGlowModel(ItemStack stack) {
         if (!BackpackLantern.isEnabled(stack)) return null;
-        if (stack.isOf(ModItems.DIAMOND_BACKPACK)) {
-            return Identifier.of("limesbackpacks", "diamond_backpack_lantern_glow");
+        if (stack.is(ModItems.DIAMOND_BACKPACK)) {
+            return Identifier.fromNamespaceAndPath("limesbackpacks", "diamond_backpack_lantern_glow");
         }
-        if (stack.isOf(ModItems.NETHERITE_BACKPACK)) {
-            return Identifier.of("limesbackpacks", "netherite_backpack_lantern_glow");
+        if (stack.is(ModItems.NETHERITE_BACKPACK)) {
+            return Identifier.fromNamespaceAndPath("limesbackpacks", "netherite_backpack_lantern_glow");
         }
         return null;
     }

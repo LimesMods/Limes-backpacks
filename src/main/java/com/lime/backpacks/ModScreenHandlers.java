@@ -1,22 +1,22 @@
 package com.lime.backpacks;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.inventory.MenuType;
 
 public class ModScreenHandlers {
-    public static ScreenHandlerType<BackpackScreenHandler> BACKPACK_SCREEN_HANDLER;
+    public static MenuType<BackpackScreenHandler> BACKPACK_SCREEN_HANDLER;
 
     public static void register() {
         BACKPACK_SCREEN_HANDLER = Registry.register(
-                Registries.SCREEN_HANDLER,
-                Identifier.of("limesbackpacks", "backpack"),
-                new ExtendedScreenHandlerType<>(
+                BuiltInRegistries.MENU,
+                Identifier.fromNamespaceAndPath("limesbackpacks", "backpack"),
+                new ExtendedMenuType<>(
                         (syncId, playerInventory, rows) -> new BackpackScreenHandler(syncId, playerInventory, rows),
-                        PacketCodecs.VAR_INT
+                        ByteBufCodecs.VAR_INT
                 )
         );
     }
