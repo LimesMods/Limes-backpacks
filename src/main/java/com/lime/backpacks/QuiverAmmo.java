@@ -51,6 +51,10 @@ public final class QuiverAmmo {
     }
 
     public static boolean hasAvailableArrows(Player player) {
+        // The off-hand slot is separate from PlayerInventory's main container.
+        // Include it so a quiver visibly fills when arrows are held in the
+        // other hand while the backpack is being rendered.
+        if (player.getOffhandItem().is(ItemTags.ARROWS)) return true;
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
             if (!stack.isEmpty() && stack.is(ItemTags.ARROWS)) return true;
