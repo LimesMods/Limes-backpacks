@@ -3,6 +3,8 @@ package com.lime.backpacks.client;
 import com.lime.backpacks.BackpackItem;
 import com.lime.backpacks.BackpackLantern;
 import com.lime.backpacks.BackpackTier;
+import com.lime.backpacks.ModItems;
+import com.lime.backpacks.QuiverAmmo;
 import com.lime.backpacks.client.lighting.BackpackDynamicLights;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,8 +20,11 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 public class BackpackRenderer implements TrinketRenderer {
@@ -28,6 +33,7 @@ public class BackpackRenderer implements TrinketRenderer {
     // frame transform.
     private static final float WORN_MODEL_SCALE = 0.75f;
     private final ItemRenderState itemRenderState = new ItemRenderState();
+    private final ItemRenderState lanternGlowRenderState = new ItemRenderState();
 
     @Override
     public void render(ItemStack stack, SlotReference slotReference,
@@ -41,14 +47,29 @@ public class BackpackRenderer implements TrinketRenderer {
         // Render the mesh without applying a display transform. This prevents
         // the item-frame-only fixed scale/centering from changing the worn size
         // or moving the backpack on the player's back.
+        lanternGlowRenderState.clear();
         mc.getItemModelManager().clearAndUpdate(
                 itemRenderState,
-                stack,
+                shaderSafeBackpackStack(stack),
                 ItemDisplayContext.NONE,
                 mc.world,
                 slotReference.inventory().getComponent().getEntity(),
                 0
         );
+
+        Identifier glowModel = lanternGlowModel(stack);
+        if (glowModel != null) {
+            ItemStack lantern = new ItemStack(Items.LANTERN);
+            lantern.set(DataComponentTypes.ITEM_MODEL, glowModel);
+            mc.getItemModelManager().clearAndUpdate(
+                    lanternGlowRenderState,
+                    lantern,
+                    ItemDisplayContext.NONE,
+                    mc.world,
+                    slotReference.inventory().getComponent().getEntity(),
+                    0
+            );
+        }
 
         if (itemRenderState.isEmpty()) return;
 
@@ -101,7 +122,39 @@ public class BackpackRenderer implements TrinketRenderer {
             BackpackDynamicLights.captureAnchor(player, camera.add(center.x, center.y, center.z));
         }
         itemRenderState.render(matrices, renderQueue, light, OverlayTexture.DEFAULT_UV, 0);
+        if (!lanternGlowRenderState.isEmpty()) {
+            lanternGlowRenderState.render(matrices, renderQueue,
+                    net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE,
+                    OverlayTexture.DEFAULT_UV, 0);
+        }
 
         matrices.pop();
+    }
+
+    private static ItemStack shaderSafeBackpackStack(ItemStack stack) {
+        String model = null;
+        if (stack.isOf(ModItems.DIAMOND_BACKPACK)) {
+            model = "diamond_backpack_unlit";
+        } else if (stack.isOf(ModItems.NETHERITE_BACKPACK)) {
+            model = QuiverAmmo.hasStoredArrows(stack)
+                    ? "netherite_backpack_unlit"
+                    : "netherite_backpack_empty_quiver_unlit";
+        }
+        if (model == null || !BackpackLantern.isEnabled(stack)) return stack;
+
+        ItemStack renderStack = stack.copy();
+        renderStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of("limesbackpacks", model));
+        return renderStack;
+    }
+
+    private static Identifier lanternGlowModel(ItemStack stack) {
+        if (!BackpackLantern.isEnabled(stack)) return null;
+        if (stack.isOf(ModItems.DIAMOND_BACKPACK)) {
+            return Identifier.of("limesbackpacks", "diamond_backpack_lantern_glow");
+        }
+        if (stack.isOf(ModItems.NETHERITE_BACKPACK)) {
+            return Identifier.of("limesbackpacks", "netherite_backpack_lantern_glow");
+        }
+        return null;
     }
 }

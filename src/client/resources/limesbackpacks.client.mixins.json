@@ -2,7 +2,7 @@
 	"required": true,
 	"package": "com.lime.backpacks.mixin.client",
 	"compatibilityLevel": "JAVA_21",
-	"client": ["QuiverItemModelMixin", "LanternItemLightMixin"],
+	"client": ["QuiverItemModelMixin", "LanternItemLightMixin", "HeldItemRendererMixin", "PlayerHeldItemFeatureRendererMixin", "IrisPipelineMaterialMixin", "IrisWorldRenderingSettingsMixin", "IrisCarriedLanternMixin"],
 	"injectors": {
 		"defaultRequire": 0
 	}

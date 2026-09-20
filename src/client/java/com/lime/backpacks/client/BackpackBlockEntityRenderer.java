@@ -2,6 +2,9 @@ package com.lime.backpacks.client;
 
 import com.lime.backpacks.BackpackBlock;
 import com.lime.backpacks.BackpackBlockEntity;
+import com.lime.backpacks.BackpackLantern;
+import com.lime.backpacks.ModItems;
+import com.lime.backpacks.QuiverAmmo;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -11,7 +14,11 @@ import net.minecraft.client.render.command.ModelCommandRenderer;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemDisplayContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
@@ -35,10 +42,53 @@ public final class BackpackBlockEntityRenderer
         BlockEntityRenderState.updateBlockEntityRenderState(entity, state, crumblingOverlay);
         state.rotation = entity.getCachedState().get(BackpackBlock.ROTATION);
         state.itemRenderState.clear();
+        state.lanternGlowRenderState.clear();
         if (entity.getWorld() != null && !entity.getBackpack().isEmpty()) {
-            itemModelManager.clearAndUpdate(state.itemRenderState, entity.getBackpack(),
+            ItemStack backpack = entity.getBackpack();
+            itemModelManager.clearAndUpdate(state.itemRenderState, backpackRenderStack(backpack),
                     ItemDisplayContext.GROUND, entity.getWorld(), null, 0);
+
+            Identifier glowModel = lanternGlowModel(backpack);
+            if (glowModel != null) {
+                ItemStack lantern = new ItemStack(Items.LANTERN);
+                lantern.set(DataComponentTypes.ITEM_MODEL, glowModel);
+                itemModelManager.clearAndUpdate(state.lanternGlowRenderState, lantern,
+                        ItemDisplayContext.GROUND, entity.getWorld(), null, 0);
+            }
         }
+    }
+
+    /**
+     * Keep the backpack on its normal shader material. The lantern glow is
+     * rendered separately below using a vanilla lantern item identity, so only
+     * the glow receives Complementary's warm lantern material.
+     */
+    private static ItemStack backpackRenderStack(ItemStack backpack) {
+        String model = null;
+        if (backpack.isOf(ModItems.DIAMOND_BACKPACK)) {
+            model = "diamond_backpack_unlit";
+        } else if (backpack.isOf(ModItems.NETHERITE_BACKPACK)) {
+            model = QuiverAmmo.hasStoredArrows(backpack)
+                    ? "netherite_backpack_unlit"
+                    : "netherite_backpack_empty_quiver_unlit";
+        }
+
+        if (model == null || !BackpackLantern.isEnabled(backpack)) return backpack;
+
+        ItemStack renderStack = backpack.copy();
+        renderStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of("limesbackpacks", model));
+        return renderStack;
+    }
+
+    private static Identifier lanternGlowModel(ItemStack backpack) {
+        if (!BackpackLantern.isEnabled(backpack)) return null;
+        if (backpack.isOf(ModItems.DIAMOND_BACKPACK)) {
+            return Identifier.of("limesbackpacks", "diamond_backpack_lantern_glow");
+        }
+        if (backpack.isOf(ModItems.NETHERITE_BACKPACK)) {
+            return Identifier.of("limesbackpacks", "netherite_backpack_lantern_glow");
+        }
+        return null;
     }
 
     @Override
@@ -63,6 +113,14 @@ public final class BackpackBlockEntityRenderer
 
         state.itemRenderState.render(matrices, renderQueue, state.lightmapCoordinates,
                 OverlayTexture.DEFAULT_UV, 0);
+        if (!state.lanternGlowRenderState.isEmpty()) {
+            // Vanilla lanterns render their flame/glass at full brightness. Do
+            // the same here so redstone and other shader-colored light sources
+            // cannot tint the backpack's lantern overlay.
+            state.lanternGlowRenderState.render(matrices, renderQueue,
+                    net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE,
+                    OverlayTexture.DEFAULT_UV, 0);
+        }
         matrices.pop();
     }
 }

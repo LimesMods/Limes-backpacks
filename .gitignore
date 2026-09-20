@@ -1,6 +1,7 @@
 # gradle
 
 .gradle/
+.gradle-user/
 build/
 out/
 classes/
@@ -35,6 +36,9 @@ bin/
 # fabric
 
 run/
+
+# local staging assets
+assets/
 
 # java
 

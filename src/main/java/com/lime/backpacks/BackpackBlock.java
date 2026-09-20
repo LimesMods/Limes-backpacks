@@ -8,6 +8,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -19,10 +20,14 @@ import net.minecraft.util.shape.VoxelShape;
 public class BackpackBlock extends BlockWithEntity {
     public static final IntProperty ROTATION = IntProperty.of("rotation", 0, 7);
     public static final IntProperty TIER = IntProperty.of("tier", 0, 5);
+    public static final BooleanProperty LIT = BooleanProperty.of("lit");
 
     public BackpackBlock(Settings settings) {
         super(settings);
-        setDefaultState(getStateManager().getDefaultState().with(ROTATION, 0).with(TIER, 0));
+        setDefaultState(getStateManager().getDefaultState()
+                .with(ROTATION, 0)
+                .with(TIER, 0)
+                .with(LIT, false));
     }
 
     @Override
@@ -32,7 +37,7 @@ public class BackpackBlock extends BlockWithEntity {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(ROTATION, TIER);
+        builder.add(ROTATION, TIER, LIT);
     }
 
     @Override

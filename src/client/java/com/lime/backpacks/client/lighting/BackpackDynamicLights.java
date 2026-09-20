@@ -2,8 +2,10 @@ package com.lime.backpacks.client.lighting;
 
 import com.lime.backpacks.ModItems;
 import com.lime.backpacks.TrinketsCompat;
+import com.lime.backpacks.client.IrisShaderCompat;
 import dev.lambdaurora.lambdynlights.api.DynamicLightsContext;
 import dev.lambdaurora.lambdynlights.api.DynamicLightsInitializer;
+import dev.lambdaurora.lambdynlights.api.behavior.DynamicLightBehaviorManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -41,7 +43,13 @@ public final class BackpackDynamicLights implements DynamicLightsInitializer {
         }
         if (world == null) return;
         var active = new HashSet<UUID>();
-        if (FabricLoader.getInstance().isModLoaded("trinkets")) {
+        // Iris receives the local worn lantern through its held-light uniforms.
+        // Running this moving LambDynamicLights source at the same time makes
+        // the two lighting systems alternately win as the player crosses block
+        // boundaries, which appears as flicker while running.
+        boolean irisShaderLighting = FabricLoader.getInstance().isModLoaded("iris")
+                && IrisShaderCompat.isShaderPackActive();
+        if (FabricLoader.getInstance().isModLoaded("trinkets") && !irisShaderLighting) {
             for (PlayerEntity player : world.getPlayers()) {
                 if (!player.isAlive() || player.isSpectator() || !TrinketsCompat.hasEquippedLitLantern(player)) continue;
                 active.add(player.getUuid());
@@ -63,6 +71,7 @@ public final class BackpackDynamicLights implements DynamicLightsInitializer {
             manager.remove(entry.getValue());
             return true;
         });
+
     }
 
     public static void captureAnchor(PlayerEntity player, Vec3d anchor) {

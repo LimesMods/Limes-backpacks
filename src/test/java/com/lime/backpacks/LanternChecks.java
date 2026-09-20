@@ -24,6 +24,7 @@ public final class LanternChecks {
         check(BackpackLantern.hasLantern(new ItemStack(ModItems.DIAMOND_BACKPACK)), "Diamond not lit");
         check(BackpackLantern.hasLantern(new ItemStack(ModItems.NETHERITE_BACKPACK)), "Netherite not lit");
         checkPerBackpackState();
+        checkCarriedShaderLight();
 
         // No optional API should be needed to load the normal client entrypoint or models.
         Class.forName("com.lime.backpacks.client.LimesBackpacksClient");
@@ -124,6 +125,45 @@ public final class LanternChecks {
 
     private static void check(boolean condition, String message) {
         if (!condition) throw new AssertionError(message);
+    }
+
+    private static void checkCarriedShaderLight() throws Exception {
+        // Loading the targets runs real mixin validation, including require=1
+        // at the hand-local render call (the old hook silently matched nothing).
+        for (String target : new String[]{"net.minecraft.client.render.item.HeldItemRenderer",
+                "net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer"}) {
+            var type = Class.forName(target, false, LanternChecks.class.getClassLoader());
+            check(java.util.Arrays.stream(type.getDeclaredMethods()).anyMatch(
+                    method -> method.getName().contains("limesbackpacks$renderLanternGlow")),
+                    "Missing hand glow injection: " + target);
+        }
+        var choose = Class.forName("com.lime.backpacks.client.CarriedLanternLight").getMethod(
+                "useLantern", net.minecraft.util.Hand.class, ItemStack.class, ItemStack.class,
+                boolean.class, int.class);
+        var main = net.minecraft.util.Hand.MAIN_HAND;
+        var off = net.minecraft.util.Hand.OFF_HAND;
+        var empty = ItemStack.EMPTY;
+        for (var item : new net.minecraft.item.Item[]{ModItems.DIAMOND_BACKPACK, ModItems.NETHERITE_BACKPACK}) {
+            var bag = new ItemStack(item);
+            check((boolean) choose.invoke(null, main, bag, empty, false, 0), "Held bag lacks shader light");
+            check((boolean) choose.invoke(null, off, empty, bag, false, 0), "Offhand bag lacks shader light");
+            check(!(boolean) choose.invoke(null, off, bag, empty, true, 0), "Worn/held light doubled");
+            BackpackLantern.toggle(bag);
+            check(!(boolean) choose.invoke(null, main, bag, empty, false, 0), "Disabled bag still lights shaders");
+        }
+        check((boolean) choose.invoke(null, off, empty, empty, true, 0), "Back slot lacks shader light");
+        check(!(boolean) choose.invoke(null, main, empty, empty, true, 0), "Worn light occupies both channels");
+        check(!(boolean) choose.invoke(null, off, empty, empty, false, 0), "Removed backpack still lights shaders");
+        check(!(boolean) choose.invoke(null, off, empty, new ItemStack(Items.LANTERN), true, 15),
+                "Worn lantern replaces full-strength held light");
+        if (FabricLoader.getInstance().isModLoaded("iris")) {
+            var supplier = Class.forName("net.irisshaders.iris.uniforms.IdMapUniforms$HeldItemSupplier",
+                    false, LanternChecks.class.getClassLoader());
+            check(java.util.Arrays.stream(supplier.getDeclaredMethods()).anyMatch(
+                    method -> method.getName().contains("limesbackpacks$updateCarriedLight")),
+                    "Iris brightness/color supplier injection missing");
+        }
+        System.out.println("PASS: hand render injections and held/worn shader light selection, toggles and removal.");
     }
 
     private static void checkPerBackpackState() {

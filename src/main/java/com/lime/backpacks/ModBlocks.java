@@ -22,6 +22,7 @@ public final class ModBlocks {
                     .registryKey(blockKey("placed_backpack"))
                     .strength(0.5f)
                     .sounds(BACKPACK_SOUNDS)
+                    .luminance(state -> state.get(BackpackBlock.LIT) ? 15 : 0)
                     .dynamicBounds()
                     .nonOpaque()));
 

@@ -1,5 +1,18 @@
 {
-  "elements": [],
+  "elements": [
+    {
+      "from": [7.75, 7.75, 7.75],
+      "to": [8.25, 8.25, 8.25],
+      "faces": {
+        "down": { "texture": "#particle" },
+        "up": { "texture": "#particle" },
+        "north": { "texture": "#particle" },
+        "south": { "texture": "#particle" },
+        "west": { "texture": "#particle" },
+        "east": { "texture": "#particle" }
+      }
+    }
+  ],
   "textures": {
     "particle": "limesbackpacks:block/diamond_fabric"
   },

@@ -42,6 +42,12 @@ dependencies {
 	modCompileOnly "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cca_version}"
 	modCompileOnly "maven.modrinth:trinkets-updated:${trinkets_version}"
 	modCompileOnly "dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:4.9.1+1.21.11"
+	// Optional local integration check against the user's installed Iris/Sodium versions.
+	if (providers.gradleProperty('shaderModsDir').isPresent()) {
+		modLocalRuntime fileTree(providers.gradleProperty('shaderModsDir').get()) {
+			include 'iris-*.jar', 'sodium-*.jar'
+		}
+	}
 	if (providers.gradleProperty('withDynamicLights').isPresent()) {
 		modLocalRuntime "dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:4.9.1+1.21.11"
 	}

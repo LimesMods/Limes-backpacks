@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1000" viewBox="0 0 1200 1000" shape-rendering="crispEdges">
+  <title>Lime's Backpacks logo</title>
+  <desc>Hand-authored pixel-art logo with chunky lime-green LIME'S lettering, gold BACKPACKS lettering, and a blocky lime fruit.</desc>
+  <rect width="1200" height="1000" fill="#1f2222"/>
+  <rect x="24" y="24" width="1152" height="952" fill="none" stroke="#050505" stroke-width="16"/>
+  <rect x="42" y="42" width="1116" height="916" fill="none" stroke="#3a3a3a" stroke-width="4"/>
+
+  <defs>
+    <!-- All glyphs are built on a simple 5x7 pixel grid. -->
+    <g id="L"><path d="M0 0h1v6h4v1H0z"/></g>
+    <g id="I"><path d="M0 0h3v1H0zm1 1h1v5H1zM0 6h3v1H0z"/></g>
+    <g id="M"><path d="M0 0h1v7H0zm4 0h1v7H4zM1 0h1v1H1zm3 0H3v1h1zM2 1h1v1H2z"/></g>
+    <g id="E"><path d="M0 0h5v1H1v2h3v1H1v2h4v1H0z"/></g>
+    <g id="S"><path d="M0 0h5v1H1v2h4v4H0V6h4V4H0z"/></g>
+    <g id="B"><path d="M0 0h4v1h1v2H4v1h1v2H4v1H0zM1 1v2h2V1zm0 3v2h2V4z"/></g>
+    <g id="A"><path d="M1 0h3v1h1v6H4V5H1v2H0V1h1zm0 1v3h3V1z"/></g>
+    <g id="C"><path d="M1 0h4v1H1v5h4v1H1V6H0V1h1z"/></g>
+    <g id="K"><path d="M0 0h1v3h1V2h1V1h1V0h1v2H4v1H3v1h1v1h1v2H4V6H3V5H2V4H1v3H0z"/></g>
+    <g id="P"><path d="M0 0h4v1h1v3H4v1H1v2H0zm1 1v2h3V1z"/></g>
+    <g id="apostrophe"><path d="M0 0h1v2H0z"/></g>
+  </defs>
+
+  <!-- Top word: black block shadow, then a chunky lime-green face. -->
+  <g transform="translate(70 150) scale(23)" fill="#050505">
+    <use href="#L" x="1" y="1"/><use href="#I" x="7" y="1"/><use href="#M" x="11" y="1"/><use href="#E" x="17" y="1"/><use href="#apostrophe" x="23" y="1"/><use href="#S" x="26" y="1"/>
+  </g>
+  <g transform="translate(70 150) scale(23)" fill="#a8e33b" stroke="#050505" stroke-width="0.28" paint-order="stroke">
+    <use href="#L" x="0"/><use href="#I" x="6"/><use href="#M" x="10"/><use href="#E" x="16"/><use href="#apostrophe" x="22"/><use href="#S" x="25"/>
+  </g>
+  <g fill="#d8f56b" opacity=".7">
+    <rect x="102" y="162" width="25" height="25"/><rect x="252" y="162" width="25" height="25"/><rect x="402" y="162" width="25" height="25"/>
+  </g>
+
+  <!-- Blocky lime fruit, integrated as the mark beside the name. -->
+  <g transform="translate(925 103)" stroke="#050505" stroke-width="12" stroke-linejoin="miter" paint-order="stroke">
+    <path fill="#427d25" d="M82 0h52v22h30v24h22v30h18v82h-20v29h-26v22H68v-18H39v-25H18V76h20V48h24V22h20z"/>
+    <path fill="#9bdc2b" d="M68 45h79v17h27v26h14v57h-22v25H70v-17H45v-66h23z"/>
+    <path fill="#d5f36b" stroke="none" d="M68 62h35v19H81v21H56V76h12z"/>
+    <path fill="#70b52a" stroke="none" d="M126 100h30v25h-30zM78 127h27v24H78z"/>
+    <path fill="#315c25" d="M83 0h51v22H83z"/>
+    <path fill="#6aa62a" stroke="none" d="M134 0h30v22h-30z"/>
+  </g>
+
+  <!-- Bottom word: wider, tighter, and consistently aligned. -->
+  <g transform="translate(103 555) scale(18)" fill="#050505">
+    <use href="#B" x="1" y="1"/><use href="#A" x="7" y="1"/><use href="#C" x="13" y="1"/><use href="#K" x="19" y="1"/><use href="#P" x="25" y="1"/><use href="#A" x="31" y="1"/><use href="#C" x="37" y="1"/><use href="#K" x="43" y="1"/><use href="#S" x="49" y="1"/>
+  </g>
+  <g transform="translate(103 555) scale(18)" fill="#e7b52e" stroke="#050505" stroke-width="0.3" paint-order="stroke">
+    <use href="#B" x="0"/><use href="#A" x="6"/><use href="#C" x="12"/><use href="#K" x="18"/><use href="#P" x="24"/><use href="#A" x="30"/><use href="#C" x="36"/><use href="#K" x="42"/><use href="#S" x="48"/>
+  </g>
+  <g fill="#ffe27b" opacity=".65">
+    <rect x="121" y="573" width="18" height="18"/><rect x="229" y="573" width="18" height="18"/><rect x="337" y="573" width="18" height="18"/><rect x="445" y="573" width="18" height="18"/>
+  </g>
+
+  <rect x="145" y="760" width="910" height="8" fill="#343434"/>
+  <rect x="285" y="785" width="630" height="5" fill="#a8e33b" opacity=".7"/>
+</svg>

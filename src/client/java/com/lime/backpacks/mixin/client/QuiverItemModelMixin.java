@@ -22,13 +22,19 @@ public abstract class QuiverItemModelMixin {
                                                ItemDisplayContext display, World world, HeldItemContext context, int seed) {
         boolean quiver = QuiverAmmo.isQuiver(stack);
         boolean unlit = BackpackLantern.hasLantern(stack) && !BackpackLantern.isEnabled(stack);
-        if (!quiver && !unlit) return stack;
+        boolean heldLantern = BackpackLantern.hasLantern(stack)
+                && BackpackLantern.isEnabled(stack)
+                && (display.isFirstPerson()
+                || display == ItemDisplayContext.THIRD_PERSON_LEFT_HAND
+                || display == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND);
+        if (!quiver && !unlit && !heldLantern) return stack;
         boolean arrows = !quiver || QuiverAmmo.hasStoredArrows(stack)
                 || (context instanceof QuiverUser user && user.limesbackpacks$hasArrows());
-        if (arrows && !unlit) return stack;
+        if (arrows && !unlit && !heldLantern) return stack;
         ItemStack rendered = stack.copy();
-        String model = quiver ? (arrows ? "netherite_backpack" : "netherite_backpack_empty_quiver") : "diamond_backpack";
-        rendered.set(DataComponentTypes.ITEM_MODEL, Identifier.of("limesbackpacks", model + (unlit ? "_unlit" : "")));
+        String model = quiver ? (arrows ? "netherite_backpack" : "netherite_backpack_empty_quiver")
+                : "diamond_backpack";
+        rendered.set(DataComponentTypes.ITEM_MODEL, Identifier.of("limesbackpacks", model + (unlit || heldLantern ? "_unlit" : "")));
         return rendered;
     }
 }

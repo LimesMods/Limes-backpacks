@@ -50,7 +50,8 @@ public final class BackpackPlacement {
         if (!world.isClient()) {
             boolean placed = world.setBlockState(placePos,
                     ModBlocks.BACKPACK_BLOCK.getDefaultState().with(BackpackBlock.ROTATION, rotation)
-                            .with(BackpackBlock.TIER, ((BackpackItem) source.getItem()).getTier().ordinal()),
+                            .with(BackpackBlock.TIER, ((BackpackItem) source.getItem()).getTier().ordinal())
+                            .with(BackpackBlock.LIT, BackpackLantern.isEnabled(source)),
                     Block.NOTIFY_ALL);
             if (!placed) return ActionResult.FAIL;
             if (world.getBlockEntity(placePos) instanceof BackpackBlockEntity entity) {

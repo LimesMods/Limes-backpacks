@@ -1,6 +1,7 @@
 package com.lime.backpacks;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ContainerUser;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,11 +38,20 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
         this.backpackStack = stack.copy();
         this.backpackStack.setCount(1);
         this.inventory = new BackpackInventory(this.backpackStack, backpack.getTier().getSlotCount());
+        syncLanternLight();
         markDirty();
     }
 
     public ItemStack getBackpack() {
         return backpackStack;
+    }
+
+    private void syncLanternLight() {
+        if (world == null || world.isClient() || !getCachedState().contains(BackpackBlock.LIT)) return;
+        boolean lit = BackpackLantern.isEnabled(backpackStack);
+        if (getCachedState().get(BackpackBlock.LIT) != lit) {
+            world.setBlockState(pos, getCachedState().with(BackpackBlock.LIT, lit), Block.NOTIFY_ALL);
+        }
     }
 
     public void syncTier() {
@@ -95,6 +105,7 @@ public class BackpackBlockEntity extends BlockEntity implements SidedInventory {
             backpackStack = stack.copy();
             backpackStack.setCount(1);
             inventory = new BackpackInventory(backpackStack, backpack.getTier().getSlotCount());
+            syncLanternLight();
         }
     }
 
