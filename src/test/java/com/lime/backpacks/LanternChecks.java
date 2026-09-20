@@ -75,8 +75,8 @@ public final class LanternChecks {
         System.out.println("PASS: all three unlit models have shaded dark windows and preserve quiver state.");
         if (FabricLoader.getInstance().isModLoaded("lambdynlights_api")) {
             Class<?> sourceType = Class.forName("dev.lambdaurora.lambdynlights.api.item.ItemLightSource");
-            Object source = sourceType.getConstructor(net.minecraft.advancements.criterion.ItemPredicate.class, int.class)
-                    .newInstance(net.minecraft.advancements.criterion.ItemPredicate.Builder.item().build(), 15);
+            Object source = sourceType.getConstructor(net.minecraft.advancements.predicates.ItemPredicate.class, int.class)
+                    .newInstance(net.minecraft.advancements.predicates.ItemPredicate.Builder.item().build(), 15);
             var luminance = sourceType.getMethod("getLuminance", ItemStack.class);
             check((int) luminance.invoke(source, new ItemStack(ModItems.DIAMOND_BACKPACK)) == 15, "On backpack should emit light");
             for (var backpack : new net.minecraft.world.item.Item[]{ModItems.DIAMOND_BACKPACK, ModItems.NETHERITE_BACKPACK}) {

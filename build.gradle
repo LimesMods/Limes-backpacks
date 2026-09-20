@@ -1,5 +1,5 @@
 plugins {
-	id 'net.fabricmc.fabric-loom' version '1.15.5'
+	id 'net.fabricmc.fabric-loom' version '1.17.21'
 	id 'maven-publish'
 }
 
@@ -66,7 +66,7 @@ tasks.register('verifyLantern', JavaExec) {
 	dependsOn testClasses, clientClasses
 	classpath = sourceSets.test.runtimeClasspath + sourceSets.client.runtimeClasspath
 	if (providers.gradleProperty('lanternWithApi').isPresent()) {
-		// Loom 1.14's compile-only Minecraft stubs cannot be used by Knot at runtime.
+		// Compile-only Minecraft stubs cannot be used by Knot at runtime.
 		classpath += configurations.compileClasspath.filter { !it.name.startsWith('minecraft-') }
 	} else if (providers.gradleProperty('lanternWithTrinkets').isPresent()) {
 		classpath += configurations.compileClasspath.filter {

@@ -40,13 +40,13 @@ public class LimesBackpacksClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (TOGGLE_LANTERN_KEY.consumeClick()) {
-                if (client.player != null && client.screen == null
+                if (client.player != null && client.gui.screen() == null
                         && ClientPlayNetworking.canSend(ToggleBackpackLanternPayload.ID)) {
                     ClientPlayNetworking.send(new ToggleBackpackLanternPayload());
                 }
             }
             while (OPEN_BACKPACK_KEY.consumeClick()) {
-                if (client.player != null && client.screen == null
+                if (client.player != null && client.gui.screen() == null
                         && ClientPlayNetworking.canSend(OpenBackpackPayload.ID)) {
                     ClientPlayNetworking.send(new OpenBackpackPayload());
                 }

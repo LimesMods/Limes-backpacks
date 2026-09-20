@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$vanillaJar = [IO.Compression.ZipFile]::OpenRead((Join-Path $env:USERPROFILE '.gradle/caches/fabric-loom/minecraftMaven/net/minecraft/minecraft-clientonly-deobf/26.1/minecraft-clientonly-deobf-26.1.jar'))
+$vanillaJar = [IO.Compression.ZipFile]::OpenRead((Join-Path $env:USERPROFILE '.gradle/caches/fabric-loom/minecraftMaven/net/minecraft/minecraft-clientonly-deobf/26.2/minecraft-clientonly-deobf-26.2.jar'))
 $assets = Join-Path $PSScriptRoot '../src/main/resources/assets/limesbackpacks'
 $armorSources = @{}
 $atlas = Get-Content -Raw (Join-Path $assets '../minecraft/atlases/items.json') | ConvertFrom-Json

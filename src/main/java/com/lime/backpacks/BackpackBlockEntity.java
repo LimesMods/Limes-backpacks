@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
 
 public class BackpackBlockEntity extends BlockEntity implements WorldlyContainer {
     private ItemStack backpackStack = ItemStack.EMPTY;
@@ -164,7 +165,7 @@ public class BackpackBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public boolean stillValid(Player player) {
         return !isRemoved() && level != null && level.getBlockEntity(worldPosition) == this
-                && player.distanceToSqr(worldPosition.getCenter()) <= 64.0;
+                && player.distanceToSqr(Vec3.atCenterOf(worldPosition)) <= 64.0;
     }
 
     @Override

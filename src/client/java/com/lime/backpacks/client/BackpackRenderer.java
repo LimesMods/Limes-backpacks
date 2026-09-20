@@ -121,7 +121,7 @@ public class BackpackRenderer implements TrinketRenderer {
                     netherite ? 8.632f : 9.0f, netherite ? 5.949f : 6.031f);
             center.div(16).sub(.5f, .5f, .5f);
             matrices.last().pose().transformPosition(center);
-            Vec3 camera = mc.gameRenderer.getMainCamera().position();
+            Vec3 camera = mc.gameRenderer.mainCamera().position();
             BackpackDynamicLights.captureAnchor(player, camera.add(center.x, center.y, center.z));
         }
         itemRenderState.submit(matrices, renderQueue, light, OverlayTexture.NO_OVERLAY, 0);
