@@ -98,8 +98,8 @@ public final class BackpackBlockEntityRenderer
 
         matrices.pushPose();
         matrices.translate(0.5, 0.0, 0.5);
-        matrices.mulPose(Axis.YP.rotationDegrees(
-                com.lime.backpacks.BackpackPlacement.modelRotationDegrees(state.rotation)));
+        matrices.rotateDegrees(Axis.YP,
+                com.lime.backpacks.BackpackPlacement.modelRotationDegrees(state.rotation));
 
         // Use the model's ground transform and enlarge it back to the same
         // natural scale as the backpack worn on a player. This keeps the pack

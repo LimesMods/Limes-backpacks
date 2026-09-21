@@ -14,7 +14,6 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 public class LimesBackpacksClient implements ClientModInitializer {
     public static KeyMapping OPEN_BACKPACK_KEY;
@@ -28,13 +27,13 @@ public class LimesBackpacksClient implements ClientModInitializer {
         MenuScreens.register(ModScreenHandlers.BACKPACK_SCREEN_HANDLER, BackpackScreen::new);
         BlockEntityRenderers.register(ModBlocks.BACKPACK_BLOCK_ENTITY, BackpackBlockEntityRenderer::new);
         TOGGLE_LANTERN_KEY = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-                "key.limesbackpacks.toggle_lantern", InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_G, BACKPACK_CATEGORY));
+                "key.limesbackpacks.toggle_lantern", InputConstants.Type.KEYBOARD,
+                InputConstants.KEY_G, BACKPACK_CATEGORY));
 
         OPEN_BACKPACK_KEY = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.limesbackpacks.open_backpack",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_B,
+                InputConstants.Type.KEYBOARD,
+                InputConstants.KEY_B,
                 BACKPACK_CATEGORY
         ));
 

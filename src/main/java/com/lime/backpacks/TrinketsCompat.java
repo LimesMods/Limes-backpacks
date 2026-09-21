@@ -3,6 +3,7 @@ package com.lime.backpacks;
 import eu.pb4.trinkets.api.TrinketsApi;
 import eu.pb4.trinkets.api.TrinketInventory;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
@@ -62,7 +63,7 @@ public class TrinketsCompat {
         if (!previous.isEmpty()) {
             player.setItemInHand(hand, previous);
             if (!remainder.isEmpty() && !player.getInventory().add(remainder)) {
-                player.drop(remainder, false);
+                player.drop(remainder, false, Prediction.SERVER_ONLY);
             }
         } else {
             player.setItemInHand(hand, remainder);

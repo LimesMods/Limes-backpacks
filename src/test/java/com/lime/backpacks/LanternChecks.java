@@ -142,7 +142,7 @@ public final class LanternChecks {
     private static void checkCarriedShaderLight() throws Exception {
         // Loading the targets runs real mixin validation, including require=1
         // at the hand-local render call (the old hook silently matched nothing).
-        for (String target : new String[]{"net.minecraft.client.renderer.ItemInHandRenderer",
+        for (String target : new String[]{"net.minecraft.client.renderer.FirstPersonHandsAndItemsRenderer",
                 "net.minecraft.client.renderer.entity.layers.ItemInHandLayer"}) {
             var type = Class.forName(target, false, LanternChecks.class.getClassLoader());
             check(java.util.Arrays.stream(type.getDeclaredMethods()).anyMatch(

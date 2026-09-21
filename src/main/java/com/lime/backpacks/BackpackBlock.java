@@ -1,7 +1,7 @@
 package com.lime.backpacks;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,11 +28,6 @@ public class BackpackBlock extends BaseEntityBlock {
                 .setValue(ROTATION, 0)
                 .setValue(TIER, 0)
                 .setValue(LIT, false));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(BackpackBlock::new);
     }
 
     @Override
@@ -91,7 +86,7 @@ public class BackpackBlock extends BaseEntityBlock {
                 ItemStack pickedUp = backpackEntity.takeBackpack();
                 world.setBlock(pos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL | Block.UPDATE_SUPPRESS_DROPS);
                 if (!tryEquipInBackSlot(player, pickedUp) && !player.getInventory().add(pickedUp)) {
-                    player.drop(pickedUp, false);
+                    player.drop(pickedUp, false, Prediction.SERVER_ONLY);
                 }
             }
             return InteractionResult.SUCCESS;

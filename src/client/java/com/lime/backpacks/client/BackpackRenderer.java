@@ -98,7 +98,7 @@ public class BackpackRenderer implements TrinketRenderer {
 
         // One attachment offset in torso-local coordinates for every pose.
         // Preserve the accepted standing alignment and item-model orientation.
-        matrices.mulPose(Axis.XP.rotationDegrees(180));
+        matrices.rotateDegrees(Axis.XP, 180);
         matrices.translate(0, -0.5, -0.25);
 
         // Clearance from the back now follows the torso in every pose.

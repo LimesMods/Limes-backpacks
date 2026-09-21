@@ -1,6 +1,6 @@
 # Lime's Backpacks
 
-Lime's Backpacks adds six wearable backpacks to Fabric 26.2. Each tier has its own capacity, materials, model details and equipment loadout.
+Lime's Backpacks adds six wearable backpacks to Fabric 26.3. Each tier has its own capacity, materials, model details and equipment loadout.
 
 ## Features
 
@@ -16,7 +16,7 @@ Lime's Backpacks adds six wearable backpacks to Fabric 26.2. Each tier has its o
 
 ## Requirements
 
-- Minecraft 26.2
+- Minecraft 26.3
 - Fabric Loader 0.19.5 or newer
 - Fabric API
 - Java 25

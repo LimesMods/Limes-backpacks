@@ -30,12 +30,12 @@
 
 	"depends": {
 		"fabricloader": ">=0.19.5",
-		"minecraft": ">=26.2 <26.3",
+		"minecraft": ">=26.3 <26.4",
 		"java": ">=25",
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"trinkets": ">=4.1.0",
-		"lambdynlights": ">=4.12.4"
+		"trinkets": ">=4.2.0",
+		"lambdynlights": ">=4.13.0"
 	}
 }
