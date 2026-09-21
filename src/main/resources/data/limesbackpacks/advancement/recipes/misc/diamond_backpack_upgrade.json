@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "limesbackpacks:diamond_backpack_upgrade"
+        "recipes": ["limesbackpacks:diamond_backpack_upgrade"]
       },
       "trigger": "minecraft:recipe_unlocked"
     }

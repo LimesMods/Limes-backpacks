@@ -16,7 +16,7 @@
   "criteria": {
     "crafted_leather_backpack": {
       "conditions": {
-        "recipe_id": "limesbackpacks:leather_backpack"
+        "recipes": ["limesbackpacks:leather_backpack"]
       },
       "trigger": "minecraft:recipe_crafted"
     }

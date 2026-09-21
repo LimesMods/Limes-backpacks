@@ -16,7 +16,7 @@
   "criteria": {
     "crafted_gold_backpack": {
       "conditions": {
-        "recipe_id": "limesbackpacks:gold_backpack_upgrade"
+        "recipes": ["limesbackpacks:gold_backpack_upgrade"]
       },
       "trigger": "minecraft:recipe_crafted"
     }

@@ -16,7 +16,7 @@
   "criteria": {
     "crafted_iron_backpack": {
       "conditions": {
-        "recipe_id": "limesbackpacks:iron_backpack_upgrade"
+        "recipes": ["limesbackpacks:iron_backpack_upgrade"]
       },
       "trigger": "minecraft:recipe_crafted"
     }

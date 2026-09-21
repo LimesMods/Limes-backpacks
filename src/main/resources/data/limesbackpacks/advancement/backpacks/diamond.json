@@ -16,7 +16,7 @@
   "criteria": {
     "crafted_diamond_backpack": {
       "conditions": {
-        "recipe_id": "limesbackpacks:diamond_backpack_upgrade"
+        "recipes": ["limesbackpacks:diamond_backpack_upgrade"]
       },
       "trigger": "minecraft:recipe_crafted"
     }

@@ -16,7 +16,7 @@
   "criteria": {
     "crafted_copper_backpack": {
       "conditions": {
-        "recipe_id": "limesbackpacks:copper_backpack_upgrade"
+        "recipes": ["limesbackpacks:copper_backpack_upgrade"]
       },
       "trigger": "minecraft:recipe_crafted"
     }

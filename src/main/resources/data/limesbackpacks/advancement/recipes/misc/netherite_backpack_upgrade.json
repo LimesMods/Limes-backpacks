@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "limesbackpacks:netherite_backpack_upgrade"
+        "recipes": ["limesbackpacks:netherite_backpack_upgrade"]
       },
       "trigger": "minecraft:recipe_unlocked"
     }
