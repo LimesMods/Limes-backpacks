@@ -1,3 +1,9 @@
+# PowerShell developer script: generates the unlit lantern glass texture.
+# Safety notes:
+# - It writes only the generated PNG inside this repository.
+# - It does not download code, execute external commands, change system settings, or delete files.
+# - Review the paths and any future edits before running an untrusted copy of this file.
+#
 # Original pixel-art glass asset. No flame or emissive pixels; the existing
 # lantern model retains its frame and uses this only on its four windows.
 Add-Type -AssemblyName System.Drawing
