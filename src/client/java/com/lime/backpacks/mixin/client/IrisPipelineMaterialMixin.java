@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 /**
- * Adds the vanilla lantern material to lit backpack block states before Iris
- * builds its shader material tables. Iris remains an optional dependency.
+ * Gives lit placed backpacks the vanilla lantern block-light material before
+ * Iris installs the shader pack's block-state table.
  */
 @Pseudo
 @Mixin(targets = "net.irisshaders.iris.pipeline.IrisRenderingPipeline", remap = false)

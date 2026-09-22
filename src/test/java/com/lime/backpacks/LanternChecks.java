@@ -25,6 +25,7 @@ public final class LanternChecks {
         check(BackpackLantern.hasLantern(new ItemStack(ModItems.NETHERITE_BACKPACK)), "Netherite not lit");
         checkPerBackpackState();
         checkCarriedShaderLight();
+        checkShaderMaterialIsolation();
 
         // No optional API should be needed to load the normal client entrypoint or models.
         Class.forName("com.lime.backpacks.client.LimesBackpacksClient");
@@ -164,6 +165,66 @@ public final class LanternChecks {
                     "Iris brightness/color supplier injection missing");
         }
         System.out.println("PASS: hand render injections and held/worn shader light selection, toggles and removal.");
+    }
+
+    private static void checkShaderMaterialIsolation() throws Exception {
+        // The placed block needs vanilla lantern light-color classification,
+        // while visible emission must remain limited to the four glow panes.
+        try (var stream = LanternChecks.class.getClassLoader().getResourceAsStream(
+                "limesbackpacks.client.mixins.json")) {
+            check(stream != null, "Missing client mixin configuration");
+            String mixins = new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+            check(mixins.contains("IrisPipelineMaterialMixin")
+                            && mixins.contains("IrisWorldRenderingSettingsMixin"),
+                    "Placed or overlay Iris lantern material mapping is missing");
+        }
+        for (String tier : new String[]{"diamond", "netherite"}) {
+            try (var stream = LanternChecks.class.getClassLoader().getResourceAsStream(
+                    "assets/limesbackpacks/models/item/" + tier + "_backpack_lantern_glow.json")) {
+                check(stream != null, "Missing isolated lantern glow model for " + tier);
+                String json = new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+                var elements = com.google.gson.JsonParser.parseString(json).getAsJsonObject()
+                        .getAsJsonArray("elements");
+                check(elements.size() == 4, "Lantern overlay contains non-lantern geometry for " + tier);
+                for (var element : elements) {
+                    check(element.getAsJsonObject().get("name").getAsString().startsWith("lantern_glow_"),
+                            "Lantern overlay contains backpack geometry for " + tier);
+                }
+            }
+        }
+        var blockMaterials = new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<net.minecraft.block.BlockState>();
+        blockMaterials.defaultReturnValue(-1);
+        blockMaterials.put(net.minecraft.block.Blocks.LANTERN.getDefaultState(), 10562);
+        com.lime.backpacks.client.IrisShaderCompat.addLanternMaterial(blockMaterials);
+        int litStates = 0;
+        for (var state : ModBlocks.BACKPACK_BLOCK.getStateManager().getStates()) {
+            if (state.get(BackpackBlock.LIT)) {
+                check(blockMaterials.getInt(state) == 10562,
+                        "Lit placed backpack did not inherit vanilla lantern light color");
+                litStates++;
+            } else {
+                check(!blockMaterials.containsKey(state),
+                        "Unlit placed backpack received lantern light material");
+            }
+        }
+        check(litStates == 48, "Expected 48 lit placed-backpack states");
+        if (FabricLoader.getInstance().isModLoaded("iris")) {
+            var namespacedId = Class.forName(
+                    "net.irisshaders.iris.shaderpack.materialmap.NamespacedId");
+            var constructor = namespacedId.getConstructor(String.class, String.class);
+            Object lantern = constructor.newInstance("minecraft", "lantern");
+            var original = new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<Object>();
+            original.defaultReturnValue(-1);
+            original.put(lantern, 44012);
+            var mapped = com.lime.backpacks.client.IrisShaderCompat.addLanternOverlayMaterials(original);
+            for (String tier : new String[]{"diamond", "netherite"}) {
+                Object glow = constructor.newInstance(
+                        "limesbackpacks", tier + "_backpack_lantern_glow");
+                check(mapped.containsKey(glow) && mapped.getInt(glow) == 44012,
+                        "Iris did not inherit vanilla lantern material for " + tier);
+            }
+        }
+        System.out.println("PASS: placed light uses vanilla lantern color and visible emission stays on four panes.");
     }
 
     private static void checkPerBackpackState() {
