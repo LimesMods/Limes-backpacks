@@ -1,0 +1,18 @@
+{
+  "parent": "limesbackpacks:item/diamond_backpack_unlit",
+  "textures": {"lantern": "limesbackpacks:item/vanilla_lantern", "particle": "limesbackpacks:item/vanilla_lantern"},
+  "display": {
+    "gui": {"rotation": [25, 215, 0], "translation": [0.773, -3.062, 0], "scale": [0.98, 0.98, 0.98]},
+    "ground": {"rotation": [0, 0, 0], "translation": [0, 4, 0], "scale": [0.5, 0.5, 0.5]},
+    "fixed": {"rotation": [0, 0, 0], "translation": [-0.496, -3.155, 0], "scale": [1.2375, 1.2375, 1.2375]},
+    "thirdperson_righthand": {"rotation": [0, 180, 0], "translation": [0, 0, 0], "scale": [0.55, 0.55, 0.55]},
+    "firstperson_righthand": {"rotation": [0, 180, 0], "translation": [0, 0, 0], "scale": [0.4, 0.4, 0.4]},
+    "thirdperson_lefthand": {"rotation": [0, 180, 0], "translation": [0, 0, 0], "scale": [0.55, 0.55, 0.55]}
+  },
+  "elements": [
+    {"name": "lantern_glow_north", "from": [1.5, 7.85, 4.648], "to": [3.34, 10.15, 4.648], "shade": false, "light_emission": 15, "faces": {"north": {"texture": "#lantern", "uv": [1, 3, 5, 8]}}},
+    {"name": "lantern_glow_south", "from": [1.5, 7.85, 7.414], "to": [3.34, 10.15, 7.414], "shade": false, "light_emission": 15, "faces": {"south": {"texture": "#lantern", "uv": [1, 3, 5, 8]}}},
+    {"name": "lantern_glow_west", "from": [1.037, 7.85, 5.111], "to": [1.037, 10.15, 6.951], "shade": false, "light_emission": 15, "faces": {"west": {"texture": "#lantern", "uv": [1, 3, 5, 8]}}},
+    {"name": "lantern_glow_east", "from": [3.803, 7.85, 5.111], "to": [3.803, 10.15, 6.951], "shade": false, "light_emission": 15, "faces": {"east": {"texture": "#lantern", "uv": [1, 3, 5, 8]}}}
+  ]
+}
