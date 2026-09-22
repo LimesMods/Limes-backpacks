@@ -1,3 +1,9 @@
+# PowerShell developer script: generates backpack particle and block-model assets.
+# Safety notes:
+# - It reads source assets from this repository and writes generated files only under this repository.
+# - It does not download code, execute external commands, change system settings, or delete files.
+# - Review the paths and any future edits before running an untrusted copy of this file.
+#
 # Generate fabric-only particle sprites from the main body's existing UV region.
 Add-Type -AssemblyName System.Drawing
 $assets = Join-Path $PSScriptRoot '../src/main/resources/assets/limesbackpacks'

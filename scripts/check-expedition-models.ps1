@@ -1,3 +1,9 @@
+# PowerShell developer script: reads local mod assets and the local Minecraft client jar to validate models.
+# Safety notes:
+# - This script is read-only: it does not write files, download code, run commands, or change system settings.
+# - It reads the repository and the Minecraft jar in the current user's Gradle cache.
+# - Review the paths and any future edits before running an untrusted copy of this file.
+
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.IO.Compression.FileSystem
