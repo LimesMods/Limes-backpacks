@@ -22,6 +22,16 @@ public abstract class QuiverItemModelMixin {
     @ModifyVariable(method = "update", at = @At("HEAD"), argsOnly = true, ordinal = 0, require = 1)
     private ItemStack limesbackpacks$chooseQuiver(ItemStack stack, ItemRenderState state, ItemStack original,
                                                ItemDisplayContext display, World world, HeldItemContext context, int seed) {
+        Identifier explicitModel = stack.get(DataComponentTypes.ITEM_MODEL);
+        if (explicitModel != null && explicitModel.getNamespace().equals("limesbackpacks")
+                && (explicitModel.getPath().equals("netherite_backpack_unlit")
+                || explicitModel.getPath().equals("netherite_backpack_empty_quiver_unlit")
+                || explicitModel.getPath().equals("diamond_backpack_unlit"))) {
+            // BackpackRenderer has already selected this shader-safe model and
+            // must be allowed to preserve its arrow state while the lantern
+            // glow is rendered as a separate vanilla-lantern overlay.
+            return stack;
+        }
         boolean quiver = QuiverAmmo.isQuiver(stack);
         boolean unlit = BackpackLantern.hasLantern(stack) && !BackpackLantern.isEnabled(stack);
         boolean heldLantern = BackpackLantern.hasLantern(stack)

@@ -46,6 +46,7 @@ public class BackpackRenderer implements TrinketRenderer {
         if (mc.world == null) return;
         var wearer = slotReference.inventory().getComponent().getEntity();
         PlayerEntity player = wearer instanceof PlayerEntity p ? p : null;
+        PlayerEntity localPlayer = mc.player;
 
         // Render the mesh without applying a display transform. This prevents
         // the item-frame-only fixed scale/centering from changing the worn size
@@ -53,7 +54,7 @@ public class BackpackRenderer implements TrinketRenderer {
         lanternGlowRenderState.clear();
         mc.getItemModelManager().clearAndUpdate(
                 itemRenderState,
-                shaderSafeBackpackStack(stack, player),
+                shaderSafeBackpackStack(stack, player, localPlayer),
                 ItemDisplayContext.NONE,
                 mc.world,
                 wearer,
@@ -134,14 +135,20 @@ public class BackpackRenderer implements TrinketRenderer {
         matrices.pop();
     }
 
-    private static ItemStack shaderSafeBackpackStack(ItemStack stack, PlayerEntity wearer) {
+    private static ItemStack shaderSafeBackpackStack(ItemStack stack, PlayerEntity wearer,
+                                                     PlayerEntity localPlayer) {
         String model = null;
         if (stack.isOf(ModItems.DIAMOND_BACKPACK)) {
             model = "diamond_backpack_unlit";
         } else if (stack.isOf(ModItems.NETHERITE_BACKPACK)) {
             boolean arrows = QuiverAmmo.hasStoredArrows(stack)
                     || (wearer != null && QuiverAmmo.hasAvailableArrows(wearer))
-                    || (wearer instanceof QuiverUser user && user.limesbackpacks$hasArrows());
+                    || (wearer instanceof QuiverUser user && user.limesbackpacks$hasArrows())
+                    // The trinket owner can be a render-side entity whose
+                    // inventory is not current. The local client player is
+                    // authoritative for the backpack worn by the viewer.
+                    || (localPlayer != null && QuiverAmmo.hasAvailableArrows(localPlayer))
+                    || (localPlayer instanceof QuiverUser user && user.limesbackpacks$hasArrows());
             model = arrows
                     ? "netherite_backpack_unlit"
                     : "netherite_backpack_empty_quiver_unlit";
