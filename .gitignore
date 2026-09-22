@@ -38,7 +38,7 @@ bin/
 run/
 
 # local staging assets
-assets/
+/assets/
 
 # java
 

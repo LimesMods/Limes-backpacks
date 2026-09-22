@@ -500,12 +500,21 @@ for (const [rank, tier] of tiers.entries()) {
   files[`src/main/resources/assets/limesbackpacks/items/${tier}_backpack.json`]=JSON.stringify({model:{type:'minecraft:model',model:`limesbackpacks:item/${tier}_backpack_worn`}},null,2)+'\n';
   files[`src/main/resources/assets/limesbackpacks/items/${tier}_backpack_worn.json`]=JSON.stringify({model:{type:'minecraft:model',model:`limesbackpacks:item/${tier}_backpack_worn`}},null,2)+'\n';
   if(rank>=4) {
+    const unlit = require('./unlit-model.cjs')(worn);
     for(const name of [tier+'_backpack', ...(rank===5?['netherite_backpack_empty_quiver']:[])]) {
       const source = name.endsWith('empty_quiver')
         ? JSON.parse(files['src/main/resources/assets/limesbackpacks/models/item/'+name+'.json']) : worn;
-      files['src/main/resources/assets/limesbackpacks/models/item/'+name+'_unlit.json'] = JSON.stringify(require('./unlit-model.cjs')(source),null,2)+'\n';
+      files['src/main/resources/assets/limesbackpacks/models/item/'+name+'_unlit.json'] = JSON.stringify(name.endsWith('empty_quiver') ? require('./unlit-model.cjs')(source) : unlit,null,2)+'\n';
       files['src/main/resources/assets/limesbackpacks/items/'+name+'_unlit.json'] = JSON.stringify({model:{type:'minecraft:model',model:'limesbackpacks:item/'+name+'_unlit'}},null,2)+'\n';
     }
+    // Render the emissive lantern panes as a separate overlay after the backpack's unlit model.
+    files['src/main/resources/assets/limesbackpacks/models/item/'+tier+'_backpack_lantern_glow.json'] = JSON.stringify({
+      parent:'limesbackpacks:item/'+tier+'_backpack_unlit',
+      textures:{lantern:'limesbackpacks:item/vanilla_lantern',particle:'limesbackpacks:item/vanilla_lantern'},
+      display:clone(unlit.display),
+      elements:clone(worn.elements.filter(e=>e.name.startsWith('lantern_glow_')))
+    },null,2)+'\n';
+    files['src/main/resources/assets/limesbackpacks/items/'+tier+'_backpack_lantern_glow.json'] = JSON.stringify({model:{type:'minecraft:model',model:'limesbackpacks:item/'+tier+'_backpack_lantern_glow'}},null,2)+'\n';
   }
 }
 files['src/main/resources/assets/minecraft/atlases/items.json']=JSON.stringify({sources:tiers.slice(1).map(tier=>({
