@@ -36,23 +36,6 @@ Lime's Backpacks links to these public APIs but does not include either mod's ja
 - **Toggle Backpack Lantern** is available under Options > Controls > Lime's Backpacks and defaults to **G**.
 - Crouch right-click with a backpack to place it. Crouch right-click a placed backpack to pick it up.
 
-## Development
-
-```text
-gradlew.bat build
-```
-
-The build runs the GUI, placement, sound, quiver and lantern verification checks. Useful focused checks are:
-
-```text
-gradlew.bat verifyLantern -PlanternWithApi
-gradlew.bat verifyLantern -PlanternWithTrinkets
-gradlew.bat verifyQuiver -PquiverWithTrinkets
-node scripts/check-attachment-joins.cjs
-```
-
-The checked-in JSON model files are the runtime source of truth. `scripts/expedition-models.cjs` documents and generates the expedition model geometry.
-
 ## Credits and licensing
 
 Original Lime's Backpacks code and project material are [All Rights Reserved](LICENSE). The repository's visibility does not grant permission to reuse or redistribute that original material.
