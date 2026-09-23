@@ -2,6 +2,7 @@ package com.lime.backpacks;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.component.type.ContainerComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
@@ -25,7 +26,26 @@ public class BackpackUpgradeRecipe implements CraftingRecipe {
 
     @Override
     public boolean matches(CraftingRecipeInput input, World world) {
-        return delegate.matches(input, world);
+        if (!delegate.matches(input, world)) {
+            return false;
+        }
+        // Only the backpack's contents carry over, so filled bundles or shulker boxes would lose their items.
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack stack = input.getStackInSlot(i);
+            if (!(stack.getItem() instanceof BackpackItem) && hasStoredItems(stack)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean hasStoredItems(ItemStack stack) {
+        ContainerComponent container = stack.get(DataComponentTypes.CONTAINER);
+        if (container != null && container.streamNonEmpty().findAny().isPresent()) {
+            return true;
+        }
+        BundleContentsComponent bundle = stack.get(DataComponentTypes.BUNDLE_CONTENTS);
+        return bundle != null && !bundle.isEmpty();
     }
 
     @Override
