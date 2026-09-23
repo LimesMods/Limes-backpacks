@@ -27,6 +27,13 @@ public class BackpackItem extends Item {
         return tier;
     }
 
+    // Keep backpacks out of shulker boxes and bundles, like vanilla shulker boxes.
+    // Otherwise backpacks can nest without limit through those containers.
+    @Override
+    public boolean canFitInsideContainerItems() {
+        return false;
+    }
+
     public ExtendedMenuProvider<Integer> createScreenFactory(ItemStack stack, Container inventory) {
         return new ExtendedMenuProvider<Integer>() {
             @Override
