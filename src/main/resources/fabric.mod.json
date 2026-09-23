@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "limesbackpacks",
-	"version": "1.0.1",
+	"version": "${version}",
 
 	"name": "Lime's Backpacks",
 	"description": "Six wearable expedition backpacks with storage, equipment, lanterns and a quiver.",
