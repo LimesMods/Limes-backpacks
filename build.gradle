@@ -63,6 +63,12 @@ processResources {
 	}
 }
 
+jar {
+	from('LICENSE') {
+		rename { "${it}_limesbackpacks" }
+	}
+}
+
 tasks.register('verifyBackpackGui', JavaExec) {
 	dependsOn testClasses
 	classpath = sourceSets.test.runtimeClasspath
