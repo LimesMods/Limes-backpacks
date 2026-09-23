@@ -1,12 +1,23 @@
 # PowerShell developer script: generates backpack particle and block-model assets.
 # Safety notes:
-# - It reads source assets from this repository and writes generated files only under this repository.
-# - It does not download code, execute external commands, change system settings, or delete files.
+# - It reads source assets from this repository and overwrites these generated files in it:
+#   - textures/block/<tier>_fabric.png (six particle textures)
+#   - models/block/placed_backpack_<tier>.json (six block models)
+#   - blockstates/placed_backpack.json
+#   All of them are under src/main/resources/assets/limesbackpacks. Nothing outside this repository is touched.
+# - It does not download code, execute external commands or change system settings.
 # - Review the paths and any future edits before running an untrusted copy of this file.
+#
+# How to run (from the repository root):
+#   powershell -ExecutionPolicy Bypass -File scripts/generate-backpack-particles.ps1
+# It prints nothing on success. On failure it stops with an error.
+# `-ExecutionPolicy Bypass` applies to this one run only; it does not change your system policy.
 #
 # PowerShell concepts used below: `$name` stores a value, `@(...)` creates an array,
 # `@{...}` creates a hashtable, and `try/finally` guarantees that image resources are released.
-# This script overwrites only generated JSON/PNG files beneath `src/main/resources`.
+
+# Stop on the first error so a missing model or texture cannot produce broken generated files.
+$ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 # Resolve all generated paths relative to the script location, not the shell's current directory.
 $assets = Join-Path $PSScriptRoot '../src/main/resources/assets/limesbackpacks'
@@ -46,7 +57,7 @@ for ($tierIndex=0; $tierIndex -lt $tiers.Count; $tierIndex++) {
     # The placed-backpack model only needs a particle texture; its actual geometry is rendered in Java.
     $blockModel = @{parent='minecraft:block/block';textures=@{particle="limesbackpacks:block/${tier}_fabric"};elements=@()}
     $blockModel | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $assets "models/block/placed_backpack_${tier}.json")
-    # Minecraft uses eight horizontal rotations. Store each rotation/tier combination in the blockstate map.
+    # The placed backpack block has eight rotations (see BackpackBlock.ROTATION). Store each rotation/tier combination in the blockstate map.
     for ($r=0; $r -lt 8; $r++) {
         $variants["rotation=$r,tier=$tierIndex"] = @{model="limesbackpacks:block/placed_backpack_${tier}"}
     }
