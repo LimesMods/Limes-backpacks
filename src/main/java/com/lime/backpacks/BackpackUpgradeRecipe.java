@@ -5,6 +5,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -26,7 +27,26 @@ public class BackpackUpgradeRecipe implements CraftingRecipe {
 
     @Override
     public boolean matches(CraftingInput input, Level world) {
-        return delegate.matches(input, world);
+        if (!delegate.matches(input, world)) {
+            return false;
+        }
+        // Only the backpack's contents carry over, so filled bundles or shulker boxes would lose their items.
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack stack = input.getItem(i);
+            if (!(stack.getItem() instanceof BackpackItem) && hasStoredItems(stack)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean hasStoredItems(ItemStack stack) {
+        ItemContainerContents container = stack.get(DataComponents.CONTAINER);
+        if (container != null && container.nonEmptyItemCopyStream().findAny().isPresent()) {
+            return true;
+        }
+        BundleContents bundle = stack.get(DataComponents.BUNDLE_CONTENTS);
+        return bundle != null && !bundle.isEmpty();
     }
 
     @Override
