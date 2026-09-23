@@ -2,6 +2,19 @@
 
 Lime's Backpacks adds six wearable backpacks to Fabric 26.3. Each tier has its own capacity, materials, model details and equipment loadout.
 
+**Download:** [Modrinth](https://modrinth.com/mod/limesbackpacks)
+
+## Supported versions
+
+Each Minecraft version is developed on its own branch.
+
+| Minecraft | Branch | Java |
+|---|---|---|
+| 26.3 | [`main`](https://github.com/LimesMods/Limes-backpacks/tree/main) / [`26.3`](https://github.com/LimesMods/Limes-backpacks/tree/26.3) | 25 |
+| 26.2 | [`26.2`](https://github.com/LimesMods/Limes-backpacks/tree/26.2) | 25 |
+| 26.1.x | [`26.1.x`](https://github.com/LimesMods/Limes-backpacks/tree/26.1.x) | 25 |
+| 1.21.11 | [`1.21.11`](https://github.com/LimesMods/Limes-backpacks/tree/1.21.11) | 21 |
+
 ## Features
 
 - Wearable backpacks with persistent inventories.
