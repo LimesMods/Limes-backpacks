@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.lime'
-version = '1.0.1'
+version = project.mod_version
 
 repositories {
 	maven { url 'https://maven.gegy.dev' }
@@ -55,6 +55,13 @@ dependencies {
 
 java {
 	toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+processResources {
+	inputs.property 'version', project.version
+	filesMatching('fabric.mod.json') {
+		expand 'version': project.version
+	}
 }
 
 tasks.register('verifyBackpackGui', JavaExec) {
