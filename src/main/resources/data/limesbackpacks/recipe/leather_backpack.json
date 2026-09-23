@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "limesbackpacks:backpack_upgrade",
   "category": "misc",
   "pattern": [
     "###",
