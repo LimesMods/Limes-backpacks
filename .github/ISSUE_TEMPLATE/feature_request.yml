@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an idea or improvement for Lime's Backpacks.
+title: "[Suggestion]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion! Please check the [existing issues](https://github.com/LimesMods/Limes-backpacks/issues) first to see if someone has already suggested it.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: What would you like to see added or changed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why would it be useful?
+      description: What problem does it solve, or how would it improve the mod?
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Sketches, screenshots or examples from other mods are welcome.
+    validations:
+      required: false
