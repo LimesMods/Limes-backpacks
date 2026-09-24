@@ -1,0 +1,103 @@
+name: Bug report
+description: Something in Lime's Backpacks is broken or not working as expected.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! The more detail you give, the faster it can be fixed.
+        Please check the [existing issues](https://github.com/LimesMods/Limes-backpacks/issues) first to see if it has already been reported.
+
+  - type: dropdown
+    id: minecraft-version
+    attributes:
+      label: Minecraft version
+      options:
+        - "26.3"
+        - "26.2"
+        - "26.1.x"
+        - "1.21.11"
+    validations:
+      required: true
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: Lime's Backpacks version
+      description: Shown in the file name of the jar or in Mod Menu.
+      placeholder: "1.0.2+mc26.3"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where does it happen?
+      options:
+        - Singleplayer
+        - Multiplayer (server)
+        - Both
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: other-mods
+    attributes:
+      label: Optional mods and shaders
+      description: Tick everything you have installed.
+      options:
+        - label: Trinkets Updated
+        - label: LambDynamicLights
+        - label: A shader pack (for example Complementary)
+        - label: Other mods (please list them below)
+
+  - type: textarea
+    id: mod-list
+    attributes:
+      label: Other mods installed
+      description: A list of your other mods, or a link to your modpack.
+      placeholder: Sodium, Iris, Mod Menu...
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug. What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can the bug be triggered again?
+      placeholder: |
+        1. Craft a Golden Backpack
+        2. Put it on with Trinkets
+        3. Press B
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Crash report or log
+      description: |
+        If the game crashed, paste the crash report from the `crash-reports` folder.
+        Otherwise, paste `logs/latest.log` or upload it to https://mclo.gs and paste the link.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or videos
+      description: Drag and drop images or videos here if they help show the problem.
+    validations:
+      required: false
