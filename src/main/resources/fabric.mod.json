@@ -4,7 +4,7 @@
 	"version": "${version}",
 
 	"name": "Lime's Backpacks",
-	"description": "Six wearable expedition backpacks with storage, equipment, lanterns and a quiver.",
+	"description": "Vanilla+ wearable backpacks. Upgrade from a humble leather pack to a Netherite backpack with a lantern and quiver.",
 	"authors": [
 		"Lime"
 	],
