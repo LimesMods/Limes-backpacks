@@ -49,6 +49,10 @@ Start with a Leather Backpack, then upgrade it one tier at a time. Upgrading kee
 - Both keys can be changed under Options > Controls > Lime's Backpacks.
 - Crouch right-click with a backpack to place it. Crouch right-click a placed backpack to pick it up.
 
+## Reporting bugs
+
+Found a bug or have an idea? [Open an issue](https://github.com/LimesMods/Limes-backpacks/issues/new/choose) and pick the bug report or feature request form.
+
 ## Optional integrations
 
 - [Trinkets Updated](https://modrinth.com/mod/trinkets-updated) adds the wearable chest/back slot. It is licensed under the [MIT License](https://www.curseforge.com/minecraft/mc-mods/trinkets-updated/license).
